@@ -24,16 +24,16 @@ public class TarifServiceImpl implements ITarifService {
     @Override
     public TarifResponse addTarif(TarifRequest tarif) {
         Tarif tarifSaved = this.tarifMapper.fromTarifRequest(tarif);
-        Option option = this.optionRepo.findByNom(tarif.getOption())
+        Option option = this.optionRepo.findById(tarif.getOptionId())
                 .orElseThrow(()-> new RessourceNotFoundException("This option doesn't exist"));
-        tarifSaved.setOptions(option);
+        tarifSaved.setOption(option);
         return this.tarifMapper.fromTarif(tarifRepo.save(tarifSaved));
     }
 
     @Override
-    public List<TarifResponse> getAll() {
+    public List<TarifResponse> getAll(Long ecoleId) {
         List<TarifResponse> tarifResponses = new ArrayList<>();
-        List<Tarif> tarifs = this.tarifRepo.findAll();
+        List<Tarif> tarifs = this.tarifRepo.findAllByEcole(ecoleId);
 
         tarifs.forEach(tarif->tarifResponses.add(this.tarifMapper.fromTarif(tarif)));
         return tarifResponses;
@@ -43,11 +43,10 @@ public class TarifServiceImpl implements ITarifService {
     public TarifResponse editTarif(Long id, TarifRequest tarif) {
        try{
            Tarif tarifEdited= this.tarifRepo.findById(id).get();
-           Option option = this.optionRepo.findByNom(tarif.getOption())
+           Option option = this.optionRepo.findById(tarif.getOptionId())
                    .orElseThrow(()-> new RessourceNotFoundException("This option doesn't exist"));
-           tarifEdited.setOptions(option);
+           tarifEdited.setOption(option);
            tarifEdited.setMontant(tarif.getMontant());
-           tarifEdited.setNiveau(tarif.getNiveau());
            return this.tarifMapper.fromTarif(this.tarifRepo.saveAndFlush(tarifEdited));
        }catch (Exception ex){
            throw new RessourceNotFoundException("Impossible, try again!");

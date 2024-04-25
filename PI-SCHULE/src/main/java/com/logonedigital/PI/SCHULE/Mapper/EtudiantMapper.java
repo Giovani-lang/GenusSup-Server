@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public interface EtudiantMapper {
     Etudiant fromEtudiantRequestDTO (EtudiantRequestDTO etudiantRequestDTO);
 
-    @Mapping(source = "anneeAcademique", target = "anneeAcademique")
-    @Mapping(source = "classe", target = "classe")
+    @Mapping(source = "ecole", target = "ecole")
     EtudiantResponseDTO fromEtudiant (Etudiant etudiant);
 }

@@ -31,8 +31,15 @@ public class EnseignantRequestDTO {
     private String password;
     @NotEmpty(message = "required field")
     private String genre;
+    @NotNull(message = "required field")
+    private Long ecoleId;
     @NotEmpty(message = "required field")
     private String grade;
     private String status;
-
+    @NotNull(message = "required field")
+    private Long filiereId;
+    @NotNull(message = "required field")
+    private List<Long> matieresIds;
+    @NotNull(message = "required field")
+    private boolean chiefDepartment;
 }

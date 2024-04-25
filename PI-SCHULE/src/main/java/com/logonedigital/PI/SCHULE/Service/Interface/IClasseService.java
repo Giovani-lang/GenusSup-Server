@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IClasseService {
     ClasseResponse addClasse (ClasseRequest classeRequest);
-    List<ClasseResponse> getClasse ();
+    List<ClasseResponse> getClasse (Long ecoleId);
+    List<ClasseResponse> getClasseByFiliere (Long filiereId);
     ClasseResponse updateClasse (String nom,ClasseRequest classeRequest);
-    void deleteClasse (Long id);
 }

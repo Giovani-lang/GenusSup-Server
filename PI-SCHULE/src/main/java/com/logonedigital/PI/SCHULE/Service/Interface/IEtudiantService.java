@@ -10,7 +10,6 @@ public interface IEtudiantService {
     EtudiantResponseDTO getEtudiantByMatricule(String matricule);
     EtudiantResponseDTO getEtudiantByEmail(String email);
     List<EtudiantResponseDTO> getEtudiants();
-    List<EtudiantResponseDTO> getEtudiantsByClasse(String classe);
+    List<EtudiantResponseDTO> getEtudiantsByEcole(Long ecoleId);
     EtudiantResponseDTO updateEtudiant(String email, EtudiantRequestDTO etudiantRequestDTO);
-    void deleteEtudiant(String email);
 }

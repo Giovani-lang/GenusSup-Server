@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public interface TarifMapper {
     Tarif fromTarifRequest (TarifRequest tarifRequest);
 
-    @Mapping(target = "options", source = "options")
+    @Mapping(source = "option", target = "option")
     TarifResponse fromTarif (Tarif tarif);
 
 }

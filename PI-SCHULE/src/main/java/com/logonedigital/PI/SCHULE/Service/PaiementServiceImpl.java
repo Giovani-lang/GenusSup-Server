@@ -28,10 +28,10 @@ public class PaiementServiceImpl implements IPaiementService {
     @Override
     public PaiementResponse addPaiement(PaiementRequest paiementRequest) {
         Paiement paiement = this.paiementMapper.fromPaiementRequest(paiementRequest);
-        Etudiant etd = this.etudiantRepo.findByMatricule(paiementRequest.getMatricule_etd())
-                .orElseThrow(()-> new RessourceNotFoundException("Student with this matricule doesn't exist, try again !"));
+        Etudiant etd = this.etudiantRepo.findById(paiementRequest.getEtudiantId())
+                .orElseThrow(()-> new RessourceNotFoundException("Student with this id doesn't exist, try again !"));
         paiement.setEtudiant(etd);
-        AnneeAcademique annee = this.anneeAcademiqueRepo.findByAnnees(paiementRequest.getAnnee_academique())
+        AnneeAcademique annee = this.anneeAcademiqueRepo.findById(paiementRequest.getAnneeAcademiqueId())
                 .orElseThrow(()-> new RessourceNotFoundException("This annee academique doesn't exist, try again !"));
         paiement.setAnneeAcademique(annee);
         paiement.setDate(new Date());
@@ -39,8 +39,8 @@ public class PaiementServiceImpl implements IPaiementService {
     }
 
     @Override
-    public List<PaiementResponse> getPaiement(String matricule, Long annee) throws RessourceNotFoundException{
-        List<Paiement> paiements = (List<Paiement>) this.paiementRepo.findPaiementByMatricule(matricule,annee);
+    public List<PaiementResponse> getPaiement(Long etudiantId, Long anneeId) throws RessourceNotFoundException{
+        List<Paiement> paiements = (List<Paiement>) this.paiementRepo.findPaiementByMatricule(etudiantId,anneeId);
         List<PaiementResponse> paiementResponses = new ArrayList<>();
         paiements.forEach(paiement -> paiementResponses.add(this.paiementMapper.fromPaiement(paiement)));
         return paiementResponses;
@@ -51,25 +51,4 @@ public class PaiementServiceImpl implements IPaiementService {
         return this.paiementMapper.fromPaiement(this.paiementRepo.findById(id).get());
     }
 
-    @Override
-    public PaiementResponse editPaiement(Long id, PaiementRequest paiementRequest) throws RessourceNotFoundException {
-        try {
-            Paiement paiement = this.paiementRepo.findById(id).get();
-
-            AnneeAcademique annee = this.anneeAcademiqueRepo.findByAnnees(paiementRequest.getAnnee_academique())
-                    .orElseThrow(()-> new RessourceNotFoundException("This annee academique doesn't exist, try again !"));
-            paiement.setAnneeAcademique(annee);
-
-            paiement.setMontant(paiementRequest.getMontant());
-            paiement.setLibelle(paiementRequest.getLibelle());
-            return this.paiementMapper.fromPaiement(this.paiementRepo.saveAndFlush(paiement));
-        }catch (Exception ex){
-            throw new RessourceNotFoundException("No payment matches this id");
-        }
-    }
-
-    @Override
-    public void deletePaiement(Long id) {
-        this.paiementRepo.deleteById(id);
-    }
 }

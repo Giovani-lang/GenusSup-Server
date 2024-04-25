@@ -41,21 +41,16 @@ public class EtudiantController {
         return new ResponseEntity<>(this.etudiantService.getEtudiants(), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllByClasse/{classe}")
-    public ResponseEntity<List<EtudiantResponseDTO>> getEtudiants(@PathVariable(name = "classe") String classe) {
-        return new ResponseEntity<>(this.etudiantService.getEtudiantsByClasse(classe), HttpStatus.OK);
+    @GetMapping("/getAllByEcole/{ecoleId}")
+    public ResponseEntity<List<EtudiantResponseDTO>> getEtudiantsByEcole(@PathVariable(name = "ecoleId") Long ecoleId) {
+        return new ResponseEntity<>(this.etudiantService.getEtudiantsByEcole(ecoleId), HttpStatus.OK);
     }
 
     @PutMapping("/edit/{matricule}")
     public ResponseEntity<EtudiantResponseDTO> updateEtudiant(@PathVariable(name = "matricule") String matricule,
-                                                              @RequestBody EtudiantRequestDTO etudiantRequestDTO)
+                                                              @RequestBody  EtudiantRequestDTO etudiantRequestDTO)
                                                               throws RessourceNotFoundException {
         return new ResponseEntity<>(this.etudiantService.updateEtudiant(matricule, etudiantRequestDTO),HttpStatus.ACCEPTED );
     }
 
-    @DeleteMapping("/delete/{matricule}")
-    public ResponseEntity<String> deleteEtudiant(@PathVariable(name = "matricule") String matricule) throws RessourceNotFoundException {
-        this.etudiantService.deleteEtudiant(matricule);
-        return new ResponseEntity<>("delete successfully", HttpStatus.OK);
-    }
 }

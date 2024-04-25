@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EtudiantRepository extends JpaRepository<Etudiant, String> {
+public interface EtudiantRepository extends JpaRepository<Etudiant, Long> {
     Optional<Etudiant> findByEmail(String email);
     Optional<Etudiant> findByMatricule(String matricule);
     Optional<Etudiant> findByTelephone(String telephone);
-    @Query(value = "SELECT e FROM Etudiant e WHERE e.classe.nom = :c")
-    List<Etudiant> findAllByClasse (@Param("c") String nomClasse);
+    @Query(value = "SELECT e FROM Etudiant e WHERE e.ecole.id = :e")
+    List<Etudiant> findAllByEcole (@Param("e") Long ecoleId);
 }

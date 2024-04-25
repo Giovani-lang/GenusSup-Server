@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FicheDePresenceRequest {
-    @NotBlank(message = "required field")
-    private String nomComplet;
     @NotNull(message = "required field")
-    @Min(value = 1, message = "must be greater than or equal to 1")
-    private Integer nombreHeure;
-    @NotBlank(message = "Required field")
-    private String nomEnseignant;
+    private boolean isAbsent;
+    @NotNull(message = "required field")
+    private Long etudiantId;
+    @NotNull(message = "required field")
+    private Long planificationId;
 }

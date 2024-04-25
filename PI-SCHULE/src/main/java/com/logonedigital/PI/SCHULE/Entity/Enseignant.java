@@ -18,13 +18,13 @@ import java.util.List;
 @Table(name = "tb_enseignants")
 @Entity
 public  class Enseignant extends User {
-    private String status;
     private String grade;
-    private Date createdAt;
-    private Date updatedAt;
+    private boolean chiefDepartment ;
+    private Date createdAt,updatedAt;
 
-    @OneToMany(targetEntity = FicheDePresence.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<FicheDePresence> ficheDePresenceList = new ArrayList<>();
-    @OneToMany(targetEntity = Note.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Note> noteList = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private Filiere department;
+
+    @ManyToMany(mappedBy = "enseignant",cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    List<Matiere> matieres = new ArrayList<>();
 }

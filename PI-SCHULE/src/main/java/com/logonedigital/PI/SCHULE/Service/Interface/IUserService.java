@@ -11,5 +11,4 @@ public interface IUserService {
     UserResponse getUser(String email);
     List<UserResponse> getAllUser();
     UserResponse editUser(String email, UserRequest user);
-    void deleteUser(String email);
 }

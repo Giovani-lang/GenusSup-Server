@@ -4,6 +4,7 @@ import com.logonedigital.PI.SCHULE.Entity.Classe;
 import com.logonedigital.PI.SCHULE.Service.Interface.IClasseService;
 import com.logonedigital.PI.SCHULE.dto.classe_dto.ClasseRequest;
 import com.logonedigital.PI.SCHULE.dto.classe_dto.ClasseResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +19,21 @@ public class ClasseController {
     private final IClasseService classeService;
 
     @PostMapping("/add")
-    public ResponseEntity<ClasseResponse> addClasse(@RequestBody ClasseRequest classe){
+    public ResponseEntity<ClasseResponse> addClasse(@RequestBody @Valid ClasseRequest classe){
         return new ResponseEntity<>(this.classeService.addClasse(classe), HttpStatus.CREATED);
     }
-    @GetMapping("/getAll")
-    public ResponseEntity<List<ClasseResponse>> getAllClasse(){
-        return new ResponseEntity<>(this.classeService.getClasse(), HttpStatus.OK);
+    @GetMapping("/findAll/{ecoleId}")
+    public ResponseEntity<List<ClasseResponse>> getAllClasse(@PathVariable(name = "ecoleId") Long ecoleId){
+        return new ResponseEntity<>(this.classeService.getClasse(ecoleId), HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll/{filiereId}")
+    public ResponseEntity<List<ClasseResponse>> getAllClasseByFiliere(@PathVariable(name = "filiereId") Long filiereId){
+        return new ResponseEntity<>(this.classeService.getClasseByFiliere(filiereId), HttpStatus.OK);
     }
     @PutMapping("/edit/{nom}")
-    public ResponseEntity<ClasseResponse> updateClasse(@PathVariable(name = "nom")String nom,@RequestBody ClasseRequest classeRequest){
+    public ResponseEntity<ClasseResponse> updateClasse(@PathVariable(name = "nom")String nom,
+                                                       @RequestBody @Valid  ClasseRequest classeRequest){
         return new ResponseEntity<>(this.classeService.updateClasse(nom, classeRequest), HttpStatus.ACCEPTED);
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteClasse(@PathVariable(name = "id")Long id){
-        this.classeService.deleteClasse(id);
-        return new ResponseEntity<>("delete successfully", HttpStatus.OK);
     }
 }

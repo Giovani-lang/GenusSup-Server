@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -70,18 +71,9 @@ public class UserServiceImpl implements IUserService {
             newUser.setFirstLogin(oldUser.isFirstLogin());
 
             return this.userMapper.fromUser(this.userRepo.saveAndFlush(newUser));
-        }catch (Exception ex){
+        }catch (NoSuchElementException ex){
             throw new RessourceNotFoundException("This user doesn't exist");
         }
     }
 
-    @Override
-    public void deleteUser(String email) throws RessourceNotFoundException {
-        try {
-            User user = this.userRepo.findUserByEmail(email).get();
-            this.userRepo.delete(user);
-        }catch (Exception ex){
-            throw new RessourceNotFoundException("This user doesn't exist");
-        }
-    }
 }

@@ -18,12 +18,9 @@ public class Paiement {
     private Date date;
     private String libelle;
     private Double montant;
-
-    @ManyToOne(targetEntity = Etudiant.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "matricule_etudiant", referencedColumnName = "matricule")
+    @ManyToOne(targetEntity = Etudiant.class, fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
     public Etudiant etudiant ;
-
-    @OneToOne(targetEntity = AnneeAcademique.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = AnneeAcademique.class, fetch = FetchType.EAGER,cascade = CascadeType.REFRESH)
     public  AnneeAcademique anneeAcademique;
 
 }

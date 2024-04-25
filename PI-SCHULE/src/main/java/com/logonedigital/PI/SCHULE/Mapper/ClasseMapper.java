@@ -13,8 +13,7 @@ public interface ClasseMapper {
 
     Classe fromClasseRequest (ClasseRequest classeRequest);
 
+    @Mapping(source = "options", target = "options")
     @Mapping(source = "filiere", target = "filiere")
-    @Mapping(source = "option", target = "option")
-    @Mapping(source = "tarif", target = "tarif")
     ClasseResponse fromClasse (Classe classe);
 }

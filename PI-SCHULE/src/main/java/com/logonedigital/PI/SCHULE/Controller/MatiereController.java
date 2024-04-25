@@ -3,6 +3,9 @@ package com.logonedigital.PI.SCHULE.Controller;
 
 import com.logonedigital.PI.SCHULE.Entity.Matiere;
 import com.logonedigital.PI.SCHULE.Service.Interface.IMatiereService;
+import com.logonedigital.PI.SCHULE.dto.matiere_dto.MatiereRequest;
+import com.logonedigital.PI.SCHULE.dto.matiere_dto.MatiereResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +21,25 @@ public class MatiereController {
     private final IMatiereService matiereService;
 
     @PostMapping("/add")
-    public ResponseEntity<Matiere> addMatiere(@RequestBody Matiere matiere){
+    public ResponseEntity<MatiereResponse> addMatiere(@RequestBody @Valid MatiereRequest matiere){
         return new ResponseEntity<>(this.matiereService.addMatiere(matiere), HttpStatus.CREATED);
     }
     @GetMapping("/getAll")
-    public ResponseEntity<List<Matiere>> getAllMatiere(){
+    public ResponseEntity<List<MatiereResponse>> getAllMatiere(){
         return new ResponseEntity<>(this.matiereService.getMatiere(), HttpStatus.OK);
     }
-    @PutMapping("/edit/{intitule}")
-    public ResponseEntity<Matiere> updateMatiere(@PathVariable(name = "intitule")String intitule,@RequestBody Matiere matiere){
-        return new ResponseEntity<>(this.matiereService.updateMatiere(intitule, matiere), HttpStatus.ACCEPTED);
+
+    @GetMapping("/findAll/{ecoleId}")
+    public ResponseEntity<List<MatiereResponse>> getAllMatiereByEcole(@PathVariable(name = "ecoleId") Long ecoleId){
+        return new ResponseEntity<>(this.matiereService.getMatiereByEcole(ecoleId), HttpStatus.OK);
     }
-    @DeleteMapping("/delete/{intitule}")
-    public ResponseEntity<String> deleteMatiere(@PathVariable(name = "intitule")String intitule){
-        this.matiereService.deleteMatiere(intitule);
-        return new ResponseEntity<>("delete successfully", HttpStatus.CREATED);
+
+    @GetMapping("/getAll/{optionId}")
+    public ResponseEntity<List<MatiereResponse>> getAllMatiereByOption(@PathVariable(name = "optionId") Long optionId){
+        return new ResponseEntity<>(this.matiereService.getMatiereByOption(optionId), HttpStatus.OK);
+    }
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<MatiereResponse> updateMatiere(@PathVariable(name = "id")Long id,@RequestBody MatiereRequest matiere){
+        return new ResponseEntity<>(this.matiereService.updateMatiere(id, matiere), HttpStatus.ACCEPTED);
     }
 }

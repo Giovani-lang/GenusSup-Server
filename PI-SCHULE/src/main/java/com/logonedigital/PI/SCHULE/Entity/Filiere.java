@@ -22,4 +22,10 @@ public class Filiere implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @OneToMany(mappedBy = "filiere",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Classe> classes = new ArrayList<>();
+    @OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Enseignant> enseignants = new ArrayList<>();
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private Cycle cycle;
 }

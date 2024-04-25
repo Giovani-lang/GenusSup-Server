@@ -5,6 +5,7 @@ import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Service.Interface.INoteService;
 import com.logonedigital.PI.SCHULE.dto.note_dto.NoteRequest;
+import com.logonedigital.PI.SCHULE.dto.note_dto.NoteResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,29 +24,39 @@ public class NoteController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Note> addNote(@RequestBody @Valid NoteRequest note)throws RessourceExistException {
+    public ResponseEntity<NoteResponse> addNote(@RequestBody @Valid NoteRequest note)throws RessourceExistException {
         return new ResponseEntity<>(this.noteService.addNote(note), HttpStatus.CREATED);
     }
 
-    @GetMapping("/detail/{codeMatiere}")
-    public ResponseEntity<Note> getNote(@PathVariable(name = "codeMatiere") String codeMatiere) throws RessourceNotFoundException {
-        return new ResponseEntity<>(this.noteService.getNote(codeMatiere),HttpStatus.OK);
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<NoteResponse> getNote(@PathVariable(name = "id") Long id) throws RessourceNotFoundException {
+        return new ResponseEntity<>(this.noteService.getNote(id),HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Note>> getNotes(){
+    public ResponseEntity<List<NoteResponse>> getNotes(){
         return new ResponseEntity<>(this.noteService.getNotes(),HttpStatus.OK);
     }
-
-    @PutMapping("/edit/{codeMatiere}")
-    public ResponseEntity<Note> updateNote(@PathVariable(name = "codeMatiere") String codeMatiere,
-                                                       @RequestBody NoteRequest note) throws RessourceNotFoundException{
-        return new ResponseEntity<>(this.noteService.updateNote(codeMatiere, note),HttpStatus.ACCEPTED);
+    @GetMapping("/getAll/{matricule}/{optionId}")
+    public ResponseEntity<List<NoteResponse>> findNotes(
+            @PathVariable(name = "matricule") String matricule,
+            @PathVariable(name = "optionId") Long optionId
+    ){
+        return new ResponseEntity<>(this.noteService.findNotes(matricule, optionId),HttpStatus.OK);
+    }
+    @GetMapping("/getAll/{matricule}/{optionId}/{anneeAcademiqueId}")
+    public ResponseEntity<List<NoteResponse>> findNotesByYear(
+            @PathVariable(name = "matricule") String matricule,
+            @PathVariable(name = "optionId") Long optionId,
+            @PathVariable(name = "anneeAcademiqueId") Long anneeAcademiqueId
+    ){
+        return new ResponseEntity<>(this.noteService.findNotesByYear(matricule, optionId,anneeAcademiqueId),HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{codeMatiere}")
-    public ResponseEntity<String> deleteNote(@PathVariable(name = "codeMatiere") String codeMatiere) throws RessourceNotFoundException {
-        this.noteService.deleteNote(codeMatiere);
-        return new ResponseEntity<>("delete successfully",HttpStatus.ACCEPTED);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<NoteResponse> updateNote(@PathVariable(name = "id") Long id,
+                                                   @Valid  @RequestBody NoteRequest note) throws RessourceNotFoundException{
+        return new ResponseEntity<>(this.noteService.updateNote(id, note),HttpStatus.ACCEPTED);
     }
+
 }

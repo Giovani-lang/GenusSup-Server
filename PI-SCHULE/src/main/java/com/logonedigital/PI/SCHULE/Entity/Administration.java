@@ -18,6 +18,7 @@ import java.util.List;
 @Table (name = "tb_admin")
 public class Administration extends User{
 
+    private String poste;
     private Date createdAt;
     private Date updatedAt;
 

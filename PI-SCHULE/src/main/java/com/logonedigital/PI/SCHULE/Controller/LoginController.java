@@ -3,6 +3,7 @@ package com.logonedigital.PI.SCHULE.Controller;
 import com.logonedigital.PI.SCHULE.Service.Interface.IUserService;
 import com.logonedigital.PI.SCHULE.dto.login_dto.LoginDTO;
 import com.logonedigital.PI.SCHULE.dto.user_dto.UserResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class LoginController {
     private final IUserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@RequestBody LoginDTO loginDto) {
+    public ResponseEntity<UserResponse> login(@RequestBody @Valid LoginDTO loginDto) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

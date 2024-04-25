@@ -1,9 +1,12 @@
 package com.logonedigital.PI.SCHULE.dto.classe_dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,8 +16,6 @@ public class ClasseRequest {
     private String nom;
     @NotEmpty(message = "required field")
     private String niveau;
-    @NotEmpty(message = "required field")
-    private String nom_filiere;
-    @NotEmpty(message = "required field")
-    private String nom_option;
+    @NotNull(message = "required field")
+    private Long filiereId;
 }

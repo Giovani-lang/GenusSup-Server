@@ -2,6 +2,9 @@ package com.logonedigital.PI.SCHULE.Controller;
 
 import com.logonedigital.PI.SCHULE.Entity.AnneeAcademique;
 import com.logonedigital.PI.SCHULE.Service.Interface.IAnneeAcademiqueService;
+import com.logonedigital.PI.SCHULE.dto.anneeAcademique_dto.AnneeAcademiqueRequest;
+import com.logonedigital.PI.SCHULE.dto.anneeAcademique_dto.AnneeAcademiqueResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +20,18 @@ public class AnneeAcademiqueController {
     private final IAnneeAcademiqueService anneeAcademiqueService;
 
     @PostMapping("/add")
-    public ResponseEntity<AnneeAcademique> addAnnee(@RequestBody AnneeAcademique anneeAcademique){
-        return new ResponseEntity<>(this.anneeAcademiqueService.addAnnee(anneeAcademique), HttpStatus.CREATED);
+    public ResponseEntity<AnneeAcademiqueResponse> addAnnee(@RequestBody @Valid AnneeAcademiqueRequest anneeAcademiqueRequest){
+        return new ResponseEntity<>(this.anneeAcademiqueService.addAnnee(anneeAcademiqueRequest), HttpStatus.CREATED);
     }
 
-    @PutMapping("/edit/{annees}")
-    public ResponseEntity<AnneeAcademique> editAnnee(@PathVariable(name = "annees") String annees,
-                                                     @RequestBody AnneeAcademique anneeAcademique){
-        return new ResponseEntity<>(this.anneeAcademiqueService.editAnnee(annees,anneeAcademique),HttpStatus.ACCEPTED);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<AnneeAcademiqueResponse> editAnnee(@PathVariable(name = "id") Long id,
+                                                     @RequestBody @Valid  AnneeAcademiqueRequest anneeAcademiqueRequest){
+        return new ResponseEntity<>(this.anneeAcademiqueService.editAnnee(id,anneeAcademiqueRequest),HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("getAll")
-    public  ResponseEntity<List<AnneeAcademique>> findAll(){
-        return new ResponseEntity<>(this.anneeAcademiqueService.getAllAnnee(),HttpStatus.OK);
+    @GetMapping("getAll/{ecoleId}")
+    public  ResponseEntity<List<AnneeAcademiqueResponse>> findAll(@PathVariable(name = "ecoleId")Long ecoleId){
+        return new ResponseEntity<>(this.anneeAcademiqueService.getAllAnnee(ecoleId),HttpStatus.OK);
     }
 }

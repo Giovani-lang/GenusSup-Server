@@ -1,10 +1,7 @@
 package com.logonedigital.PI.SCHULE.dto.enseignant_dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.logonedigital.PI.SCHULE.Model.AnneeAcademiqueModel;
-import com.logonedigital.PI.SCHULE.Model.FicheDePresenceModel;
-import com.logonedigital.PI.SCHULE.Model.MatiereModel;
-import com.logonedigital.PI.SCHULE.Model.NoteModel;
+import com.logonedigital.PI.SCHULE.Model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnseignantResponseDTO {
+    private Long id;
     private String email;
     private String image_url;
     private String nom;
@@ -24,8 +22,12 @@ public class EnseignantResponseDTO {
     private String telephone;
     private String genre;
     private String role;
+    private EcoleModel ecole;
     private String grade;
     private String status;
+    private List<MatiereModel> matieres;
+    private FiliereModel department;
+    private boolean chiefDepartment;
     private Date createdAt;
     private Date updatedAt;
 

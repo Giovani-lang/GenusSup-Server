@@ -1,12 +1,21 @@
 package com.logonedigital.PI.SCHULE.Repository;
 
+import com.logonedigital.PI.SCHULE.Entity.Administration;
 import com.logonedigital.PI.SCHULE.Entity.Matiere;
+import com.logonedigital.PI.SCHULE.dto.matiere_dto.MatiereResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface MatiereRepository extends JpaRepository<Matiere, Long> {
-    Optional<Matiere> findByIntitule (String intitule);
+    @Query(value = "SELECT m FROM Matiere m WHERE m.option.classe.filiere.cycle.ecole.id = :e")
+    List<Matiere> findAllByEcole (@Param("e") Long ecoleId);
+
+    @Query(value = "SELECT m FROM Matiere m WHERE m.option.id =:o")
+    List<Matiere> findByOption (@Param("o") Long id);
 }

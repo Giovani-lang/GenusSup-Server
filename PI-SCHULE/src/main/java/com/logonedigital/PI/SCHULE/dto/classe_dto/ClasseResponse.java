@@ -6,13 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClasseResponse {
+    private Long id;
     private String nom;
     private String niveau;
-    private double tarif;
     private FiliereModel filiere;
-    private OptionModel option;
+    private List<OptionModel> options;
 }

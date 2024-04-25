@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +22,12 @@ public class Option implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    @OneToOne(mappedBy = "option",cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private Tarif tarif;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    private Classe classe;
+    @OneToMany(mappedBy = "option",cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private List<Appartenance> appartenances = new ArrayList<>();
+    @OneToMany(mappedBy = "option",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private List<Matiere> matieres = new ArrayList<>();
 }

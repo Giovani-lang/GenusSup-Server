@@ -1,35 +1,38 @@
 package com.logonedigital.PI.SCHULE.dto.admin_dto;
 
 
-
-import com.logonedigital.PI.SCHULE.dto.emploiDuTemps_dto.EmploiDuTempsRequest;
-import com.logonedigital.PI.SCHULE.dto.pensionScolaire_dto.PensionRequest;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "build")
 
 public class AdminRequestDTO {
     @Email(message = "invalid email")
-    @NotBlank(message = "invalid email")
+    @NotEmpty(message = "invalid email")
     private String email;
     private String image_url;
-    @NotBlank(message =  "required field")
+    @NotEmpty(message =  "required field")
     private String nom;
-    @NotBlank(message =  "required field")
+    @NotEmpty(message =  "required field")
     private String prenom;
-    @NotBlank(message =  "required field")
+    @NotEmpty(message =  "required field")
     private String password;
-    @NotBlank(message =  "required field")
+    @NotEmpty(message =  "required field")
     private String telephone;
-    @NotBlank(message =  "required field")
+    @NotEmpty(message =  "required field")
     private String genre;
+    private String status;
+    @NotEmpty(message =  "required field")
+    private String poste;
+    @NotNull(message = "required field")
+    private Long ecoleId;
+
 
 }

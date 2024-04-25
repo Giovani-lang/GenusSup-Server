@@ -20,4 +20,23 @@ public class AnneeAcademique {
     @Column(name = "annee_academique")
     private String annees;
 
+    @OneToMany(mappedBy = "anneeAcademique",cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private List<Paiement> paiements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "anneeAcademique",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private List<Appartenance> appartenances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "anneeAcademique",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private List<Planification> planifications = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private Ecole ecole;
+
+    @OneToMany(mappedBy = "anneeAcademique",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private List<Note> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "anneeAcademique",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private List<Devoir> devoirs = new ArrayList<>();
+
+
 }

@@ -6,18 +6,16 @@ import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.dto.ficheDePresence_dto.FicheDePresenceRequest;
 import com.logonedigital.PI.SCHULE.dto.ficheDePresence_dto.FicheDePresenceResponse;
+import com.logonedigital.PI.SCHULE.dto.ficheDePresence_dto.FicheDePresenceUpdated;
 
 import java.util.List;
 
 public interface IFicheDePresenceService {
-    FicheDePresenceResponse addFicheDePresence(FicheDePresenceRequest ficheDePresence);
 
-    FicheDePresenceResponse getFicheDePresence(String matricule);
-
-    List<FicheDePresenceResponse> getFichesDePresence();
-
-    FicheDePresenceResponse updateFicheDePresence(String matricule, FicheDePresenceRequest ficheDePresence);
-
-    void deleteAbsence(String matricule);
+    List<FicheDePresenceResponse> addFicheDePresence(List<FicheDePresenceRequest> ficheDePresence);
+    FicheDePresenceResponse addJustification(FicheDePresenceRequest ficheDePresence);
+    List<FicheDePresenceResponse> getFichesDePresence(Long ecoleId);
+    List<FicheDePresenceResponse> getEtudiantList(String email);
+    List<FicheDePresenceResponse> updateFicheDePresence(List<FicheDePresenceUpdated> ficheDePresence);
 
 }

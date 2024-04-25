@@ -7,11 +7,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 @Configuration
 public interface FicheDePresenceMapper {
 
     FicheDePresence fromFicheDePresenceResquest (FicheDePresenceRequest ficheDePresenceRequest);
-    @Mapping(target = "enseignant", source = "enseignant")
-    FicheDePresenceResponse fromFicheDePresence (FicheDePresence ficheDePresence);
+    @Mapping(target = "etudiant", source = "etudiant")
+    @Mapping(target = "planification", source = "planification")
+    FicheDePresenceResponse toFicheDePresence (FicheDePresence ficheDePresence); // Just for justify absence
+    @Mapping(target = "etudiant", source = "etudiant")
+    @Mapping(target = "planification", source = "planification")
+    List<FicheDePresenceResponse> fromFicheDePresence (List<FicheDePresence> ficheDePresence);
 }

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,10 +24,9 @@ public class Classe implements Serializable {
     private Long id;
     private String nom;
     private String niveau;
-    private double tarif;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Filiere filiere;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    private Option option;
+    @OneToMany(mappedBy = "classe",fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    private List<Option> options = new ArrayList<>();
 
 }

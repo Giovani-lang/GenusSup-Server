@@ -14,8 +14,7 @@ import lombok.NoArgsConstructor;
 public class Tarif {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String niveau;
     private double montant;
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    private Option options;
+    private Option option;
 }

@@ -23,9 +23,12 @@ public class PaiementController {
         return new ResponseEntity<>(this.paiementService.addPaiement(paiementRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("/detail/{matricule}/{annee}")
-    public ResponseEntity<List<PaiementResponse>> findPaiementByMatricule(@PathVariable(name = "matricule")String matricule,@PathVariable(name = "annee")Long annee){
-        return new ResponseEntity<>(this.paiementService.getPaiement(matricule,annee), HttpStatus.OK);
+    @GetMapping("/detail/{etudiantId}/{anneeId}")
+    public ResponseEntity<List<PaiementResponse>> findPaiementByMatricule(
+                @PathVariable(name = "etudiantId")Long etudiantId,
+                @PathVariable(name = "anneeId")Long anneeId
+    ){
+        return new ResponseEntity<>(this.paiementService.getPaiement(etudiantId,anneeId), HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
@@ -33,8 +36,4 @@ public class PaiementController {
         return new ResponseEntity<>(this.paiementService.getById(id), HttpStatus.OK);
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<PaiementResponse> updatePaiement(@PathVariable(name = "id")Long id,@RequestBody PaiementRequest paiementRequest){
-        return new ResponseEntity<>(this.paiementService.editPaiement(id, paiementRequest), HttpStatus.CREATED);
-    }
 }

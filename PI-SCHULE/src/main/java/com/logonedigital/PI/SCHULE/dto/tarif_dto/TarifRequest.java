@@ -1,5 +1,6 @@
 package com.logonedigital.PI.SCHULE.dto.tarif_dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TarifRequest {
-    private String niveau;
+    @NotNull(message = "required field")
     private double montant;
-    private String option;
+    @NotNull(message = "required field")
+    private Long optionId;
 }

@@ -1,6 +1,7 @@
 package com.logonedigital.PI.SCHULE.dto.tarif_dto;
 
 import com.logonedigital.PI.SCHULE.Model.OptionModel;
+import com.logonedigital.PI.SCHULE.dto.option_dto.OptionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TarifResponse {
     private Long id;
-    private String niveau;
     private double montant;
-    private OptionModel options;
+    private OptionResponse option;
 }

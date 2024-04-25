@@ -4,9 +4,7 @@ import com.logonedigital.PI.SCHULE.Entity.*;
 import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.EtudiantMapper;
-import com.logonedigital.PI.SCHULE.Repository.AnneeAcademiqueRepository;
-import com.logonedigital.PI.SCHULE.Repository.ClasseRepository;
-import com.logonedigital.PI.SCHULE.Repository.EtudiantRepository;
+import com.logonedigital.PI.SCHULE.Repository.*;
 import com.logonedigital.PI.SCHULE.Service.Interface.IEtudiantService;
 import com.logonedigital.PI.SCHULE.dto.etudiant_dto.EtudiantRequestDTO;
 import com.logonedigital.PI.SCHULE.dto.etudiant_dto.EtudiantResponseDTO;
@@ -23,14 +21,32 @@ public class EtudiantServiceImpl implements IEtudiantService {
     private final EtudiantRepository etudiantRepo;
     private final EtudiantMapper etudiantMapper;
     private final PasswordEncoder encoder;
-    private final AnneeAcademiqueRepository anneeAcademiqueRepo;
-    private final ClasseRepository classeRepo;
+    private final EcoleRepository ecoleRepo;
 
 
-    public String generateMatricule(){
-        String prefix = "SCHULE";
-        String suffix = String.format("%03d", new Random().nextInt(1000));
-        return  prefix + suffix;
+    public String generateUniqueMatricule() {
+        String matricule;
+        do {
+            matricule = generateMatricule();
+        } while (etudiantRepo.findByMatricule(matricule).isPresent());
+        return matricule;
+    }
+
+    private String generateMatricule() {
+        final int PREFIX_LENGTH = 4;
+        final int SUFFIX_LENGTH = 3;
+
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder prefixBuilder = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < PREFIX_LENGTH; i++) {
+            prefixBuilder.append(alphabet.charAt(random.nextInt(alphabet.length())));
+        }
+
+        String suffix = String.format("%0" + SUFFIX_LENGTH + "d", random.nextInt(1000));
+
+        return prefixBuilder.toString() + suffix;
     }
 
     @Override
@@ -43,17 +59,12 @@ public class EtudiantServiceImpl implements IEtudiantService {
         } else if (etu2.isPresent()) {
             throw new RessourceExistException("Student with this phone already exist !!!");
         }
-        AnneeAcademique anneeAcademique = this.anneeAcademiqueRepo.findByAnnees(etudiantRequestDTO.getAnnee_academique())
-                .orElseThrow(()-> new RessourceNotFoundException("Impossible, year "+etudiantRequestDTO.getAnnee_academique()+" doesn't exist, try again !"));
-        etu.setAnneeAcademique(anneeAcademique);
-        Classe classe = this.classeRepo.findByNom(etudiantRequestDTO.getNom_classe())
-                .orElseThrow(()-> new RessourceNotFoundException("Classe"+etudiantRequestDTO.getNom_classe()+"doesn't exsit" ));
-        etu.setClasse(classe);
-        etu.setFiliere(classe.getFiliere().getNom());
-        etu.setOption(classe.getOption().getNom());
-        etu.setNiveau(classe.getNiveau());
-        etu.setMatricule(generateMatricule());
+        Ecole ecole = this.ecoleRepo.findById(etudiantRequestDTO.getEcoleId())
+                .orElseThrow(()-> new RessourceNotFoundException("School"+etudiantRequestDTO.getEcoleId()+"doesn't exsit" ));
+        etu.setEcole(ecole);
+        etu.setMatricule(generateUniqueMatricule());
         etu.setCreatedAt(new Date());
+        etu.setStatus("Actif");
         etu.setRole("ETUDIANT");
         etu.setPassword(this.encoder.encode(etu.getPassword()));
         return this.etudiantMapper.fromEtudiant(this.etudiantRepo.save(etu));
@@ -86,8 +97,8 @@ public class EtudiantServiceImpl implements IEtudiantService {
     }
 
     @Override
-    public List<EtudiantResponseDTO> getEtudiantsByClasse(String classe) {
-        List<Etudiant> etudiants = this.etudiantRepo.findAllByClasse(classe);
+    public List<EtudiantResponseDTO> getEtudiantsByEcole(Long ecoleId) {
+        List<Etudiant> etudiants = this.etudiantRepo.findAllByEcole(ecoleId);
         List<EtudiantResponseDTO> etudiantResponses = new ArrayList<>();
         etudiants.forEach(etudiant -> etudiantResponses.add(this.etudiantMapper.fromEtudiant(etudiant)));
         return etudiantResponses;
@@ -95,47 +106,30 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
     @Override
     public EtudiantResponseDTO updateEtudiant(String matricule, EtudiantRequestDTO etudiantRequestDTO)throws RessourceNotFoundException {
+try {
+    Etudiant etu = this.etudiantRepo.findByMatricule(matricule)
+            .orElseThrow(() -> new RessourceNotFoundException("This matricule " + matricule + " doesn't exist in our data base"));
 
-            Etudiant etu = this.etudiantRepo.findByMatricule(matricule)
-                    .orElseThrow(()-> new RessourceNotFoundException("This matricule " +matricule+ " doesn't exist in our data base"));
+    Etudiant etudiant = this.etudiantMapper.fromEtudiantRequestDTO(etudiantRequestDTO);
+    etu.setEmail(etudiant.getEmail());
+    etu.setImage_url(etudiant.getImage_url());
+    etu.setNom(etudiant.getNom());
+    etu.setPrenom(etudiant.getPrenom());
+    etu.setTelephone(etudiant.getTelephone());
 
-            Etudiant etudiant = this.etudiantMapper.fromEtudiantRequestDTO(etudiantRequestDTO);
+    if (etudiant.getPassword().isEmpty()) {
+        etu.setPassword(etu.getPassword());
+    } else etu.setPassword(this.encoder.encode(etudiant.getPassword()));
 
-            etu.setEmail(etudiant.getEmail());
-            etu.setImage_url(etudiant.getImage_url());
-            etu.setNom(etudiant.getNom());
-            etu.setPrenom(etudiant.getPrenom());
-            etu.setTelephone(etudiant.getTelephone());
-
-            if (etudiant.getPassword() == null || etudiant.getPassword() == " "){
-                etu.setPassword(etu.getPassword());
-            } else etu.setPassword(this.encoder.encode(etudiant.getPassword()));
-
-            etu.setDateNaissance(etudiant.getDateNaissance());
-            etu.setGenre(etudiant.getGenre());
-
-            AnneeAcademique anneeAcademique = this.anneeAcademiqueRepo.findByAnnees(etudiantRequestDTO.getAnnee_academique())
-                    .orElseThrow(()-> new RessourceNotFoundException("Impossible, year "+etudiantRequestDTO.getAnnee_academique()+" doesn't exist, try again !"));
-            etu.setAnneeAcademique(anneeAcademique);
-
-            Classe classe = this.classeRepo.findByNom(etudiantRequestDTO.getNom_classe())
-                    .orElseThrow(()-> new RessourceNotFoundException("Classe"+etudiantRequestDTO.getNom_classe()+"doesn't exsit" ));
-            etu.setClasse(classe);
-
-            etu.setNiveau(classe.getNiveau());
-            etu.setFiliere(classe.getFiliere().getNom());
-            etu.setOption(classe.getOption().getNom());
-            etu.setDateInscription(etudiant.getDateInscription());
-            etu.setUpdatedAt(new Date());
-            return this.etudiantMapper.fromEtudiant(this.etudiantRepo.save(etu));
+    etu.setDateNaissance(etudiant.getDateNaissance());
+    etu.setGenre(etudiant.getGenre());
+    etu.setDateInscription(etudiant.getDateInscription());
+    etu.setStatus(etudiant.getStatus());
+    etu.setUpdatedAt(new Date());
+    return this.etudiantMapper.fromEtudiant(this.etudiantRepo.save(etu));
+}catch (NoSuchElementException ex){
+    throw new RessourceNotFoundException("This student doesn't exist");
+}
     }
 
-    @Override
-    public void deleteEtudiant(String matricule) throws RessourceNotFoundException{
-        Optional<Etudiant> etu = this.etudiantRepo.findByMatricule(matricule);
-        this.etudiantRepo.delete(etu.get());
-        if (etu.isEmpty()){
-            throw new RessourceNotFoundException("This matricule " +matricule+ " doesn't exist in our data base");
-        }
-    }
 }

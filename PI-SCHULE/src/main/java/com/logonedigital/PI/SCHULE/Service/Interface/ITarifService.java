@@ -9,6 +9,6 @@ import java.util.List;
 public interface ITarifService {
 
     TarifResponse addTarif (TarifRequest tarifRequest);
-    List<TarifResponse> getAll ();
+    List<TarifResponse> getAll (Long ecoleId);
     TarifResponse editTarif(Long id, TarifRequest tarif);
 }

@@ -1,6 +1,7 @@
 package com.logonedigital.PI.SCHULE.dto.user_dto;
 
 
+import com.logonedigital.PI.SCHULE.Model.EcoleModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,7 @@ public class UserResponse {
     private String telephone;
     private String genre;
     private String role;
+    private String status;
+    private EcoleModel ecole;
     private boolean firstLogin;
 }

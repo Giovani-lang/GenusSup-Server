@@ -18,5 +18,8 @@ import java.util.List;
 public interface EnseignantMapper {
     Enseignant fromEnseignantRequestDTO (EnseignantRequestDTO enseignantRequestDTO);
 
+    @Mapping(source = "ecole", target = "ecole")
+    @Mapping(source ="matieres", target = "matieres")
+    @Mapping(source = "department", target = "department")
     EnseignantResponseDTO fromEnseignant (Enseignant enseignant);
 }

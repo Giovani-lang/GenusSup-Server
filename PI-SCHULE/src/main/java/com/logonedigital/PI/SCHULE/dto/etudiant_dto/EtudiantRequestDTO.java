@@ -1,22 +1,15 @@
 package com.logonedigital.PI.SCHULE.dto.etudiant_dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.logonedigital.PI.SCHULE.dto.emploiDuTemps_dto.EmploiDuTempsRequest;
-import com.logonedigital.PI.SCHULE.dto.ficheDePresence_dto.FicheDePresenceRequest;
-import com.logonedigital.PI.SCHULE.dto.note_dto.NoteRequest;
-import com.logonedigital.PI.SCHULE.dto.pensionScolaire_dto.PensionRequest;
+
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -38,13 +31,10 @@ public class EtudiantRequestDTO {
     private String password;
     @NotEmpty(message = "required field")
     private String genre;
-    @NotEmpty(message = "required field")
-    private String nom_classe;
+    private String status;
+    @NotNull(message = "required field")
+    private Long ecoleId;
     @NotEmpty(message = "required field")
     private String dateInscription;
-    @NotEmpty(message = "required field")
-    private String annee_academique;
-
-
 
 }

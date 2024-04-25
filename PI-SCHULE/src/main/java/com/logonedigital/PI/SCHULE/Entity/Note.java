@@ -15,31 +15,22 @@ import java.io.Serializable;
 @Table(name = "tb_notes")
 @ToString
 @Entity
-public class Note  implements Serializable {
+public class
+Note  implements Serializable {
     @Serial
     private static final Long serialVersionUID = 1L;
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    private String codeMatiere;
-    private String nomMatiere;
-    private int coefficient;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private float noteControle;
     private float noteSession;
-    private float moyenne;
-    private String statut;
+    private String periode;
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private Matiere matiere;
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private Etudiant etudiant;
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private AnneeAcademique anneeAcademique;
+    @OneToOne(mappedBy = "note",cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+    private Reclamation reclamation;
 
-
-
-   public float getMoyenne() {
-        float moyenneCC = this.noteControle* this.coefficient;
-        float moyenneSN = this.noteSession*this.coefficient;
-        int coefFinal = this.coefficient*2;
-        moyenne = (moyenneCC+moyenneSN)/coefFinal;
-        return moyenne;
-    }
-
-    public String getStatut(){
-        if (moyenne>=10){
-            return statut = "Validée";
-        }return statut = "Non_Validée";
-    }
 }

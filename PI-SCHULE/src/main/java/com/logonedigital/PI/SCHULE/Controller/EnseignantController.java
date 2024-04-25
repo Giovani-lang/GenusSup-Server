@@ -2,6 +2,7 @@ package com.logonedigital.PI.SCHULE.Controller;
 
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Service.Interface.IEnseignantService;
+import com.logonedigital.PI.SCHULE.dto.admin_dto.AdminResponseDTO;
 import com.logonedigital.PI.SCHULE.dto.enseignant_dto.EnseignantRequestDTO;
 import com.logonedigital.PI.SCHULE.dto.enseignant_dto.EnseignantResponseDTO;
 import jakarta.validation.Valid;
@@ -35,15 +36,15 @@ public class EnseignantController {
         return new ResponseEntity<>(this.enseignantService.getEnseignants(),HttpStatus.OK);
     }
 
+    @GetMapping("/getAllByEcole/{ecoleId}")
+    public ResponseEntity<List<EnseignantResponseDTO>> getEtudiantsByEcole(@PathVariable(name = "ecoleId") Long ecoleId) {
+        return new ResponseEntity<>(this.enseignantService.getEnseignantsByEcole(ecoleId), HttpStatus.OK);
+    }
+
     @PutMapping("/edit/{email}")
     public ResponseEntity<EnseignantResponseDTO> updateEnseignant(@PathVariable(name = "email") String email,
-                                                       @RequestBody EnseignantRequestDTO enseignantRequestDTO) throws RessourceNotFoundException{
+                                                       @RequestBody  EnseignantRequestDTO enseignantRequestDTO) throws RessourceNotFoundException{
         return new ResponseEntity<>(this.enseignantService.updateEnseignant(email, enseignantRequestDTO),HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("/delete/{email}")
-    public ResponseEntity<String> deleteEnseignant(@PathVariable(name = "email") String email) throws RessourceNotFoundException {
-        this.enseignantService.deleteEnseignant(email);
-        return new ResponseEntity<>("delete successfully",HttpStatus.ACCEPTED);
-    }
 }

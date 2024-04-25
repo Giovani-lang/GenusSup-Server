@@ -1,14 +1,15 @@
 package com.logonedigital.PI.SCHULE.Service.Interface;
 
 import com.logonedigital.PI.SCHULE.Entity.AnneeAcademique;
+import com.logonedigital.PI.SCHULE.dto.anneeAcademique_dto.AnneeAcademiqueRequest;
+import com.logonedigital.PI.SCHULE.dto.anneeAcademique_dto.AnneeAcademiqueResponse;
 
 import java.util.List;
 
 public interface IAnneeAcademiqueService {
 
-    AnneeAcademique addAnnee (AnneeAcademique anneeAcademique);
-    AnneeAcademique getAnnee(String annee_academique);
-    List<AnneeAcademique> getAllAnnee();
-    AnneeAcademique editAnnee(String annee_academique, AnneeAcademique anneeAcademique);
-    void deleteAnnee(String annee_academique);
+    AnneeAcademiqueResponse addAnnee (AnneeAcademiqueRequest anneeAcademiqueRequest);
+    AnneeAcademiqueResponse getAnnee(Long id);
+    List<AnneeAcademiqueResponse> getAllAnnee(Long ecoleId);
+    AnneeAcademiqueResponse editAnnee(Long id, AnneeAcademiqueRequest anneeAcademiqueRequest);
 }

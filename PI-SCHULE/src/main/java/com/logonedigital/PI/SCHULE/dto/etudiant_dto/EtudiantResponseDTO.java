@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EtudiantResponseDTO {
+    private Long id;
     private String matricule;
     private String email;
     private String image_url;
@@ -26,12 +27,9 @@ public class EtudiantResponseDTO {
     private String password;
     private String role;
     private String genre;
-    private ClasseModel classe;
-    private String niveau;
-    private String filiere;
-    private String option;
+    private String status;
+    private EcoleModel ecole;
     private String dateInscription;
-    private AnneeAcademiqueModel anneeAcademique;
     private Date createdAt;
     private Date updatedAt;
 

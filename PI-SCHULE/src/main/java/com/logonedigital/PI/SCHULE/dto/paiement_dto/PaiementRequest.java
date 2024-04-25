@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaiementRequest {
-    @NotEmpty(message = "required field")
-    private String matricule_etd;
+    @NotNull(message = "required field")
+    private Long etudiantId;
     @NotEmpty(message = "required field")
     private String libelle;
     @NotNull(message = "required field")
     private Double montant;
     @NotNull(message = "required field")
-    private String annee_academique;
+    private Long anneeAcademiqueId;
 }

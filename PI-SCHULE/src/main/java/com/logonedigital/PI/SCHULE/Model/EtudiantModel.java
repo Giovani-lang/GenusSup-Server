@@ -11,8 +11,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EtudiantModel {
+    private Long id;
     private String matricule;
     private String nom;
     private String prenom;
-    private ClasseModel classe;
 }
