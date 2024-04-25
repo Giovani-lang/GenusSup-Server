@@ -18,14 +18,23 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-//    private static final String[] ENS_SECURE_URLs= {
-//            "/api/v1/ficheDePresence/add",
-//            "/api/v1/ficheDePresence/edit",
-//            "/api/v1/ficheDePresence/delete",
-//            "/api/v1/notes/add",
-//            "/api/v1/notes/edit",
-//            "/api/v1/notes/delete"
-//    };
+    private static final String[] SADMIN_SECURE_URLs= {
+            "/api/v1/**/**"
+    };
+    private static final String[] ENS_SECURE_URLs= {
+            "/api/v1/ficheDePresence/add",
+            "/api/v1/ficheDePresence/edit",
+            "/api/v1/ficheDePresence/delete",
+            "/api/v1/notes/add",
+            "/api/v1/notes/edit",
+            "/api/v1/devoirs/add",
+            "/api/v1/devoirs/edit",
+            "/api/v1/reclamations/treated",
+            "/api/v1/planifications/getAllForTeacher/**",
+            "/api/v1/options/getAllForTeacher/**",
+            "/api/v1/appartenances/getByOption/**",
+            "/api/v1/appartenances/getAllByAnnee/**"
+    };
 //    private static final String[] ADMIN_SECURE_URLs = {
 //            "/api/v1/enseignants/**",
 //            "/api/v1/etudiants/**",
@@ -79,7 +88,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
          http.authorizeHttpRequests(auth-> {
 //             auth.requestMatchers(ADMIN_SECURE_URLs).hasAuthority("ADMIN");
-//             auth.requestMatchers(ENS_SECURE_URLs).hasAuthority("ENSEIGNANT");
+             auth.requestMatchers(ENS_SECURE_URLs).hasAuthority("ENSEIGNANT");
 //             auth.requestMatchers(UN_SECURE_URLs).hasAnyAuthority("ADMIN","ETUDIANT","ENSEIGNANT");
              auth.anyRequest().permitAll();
         });

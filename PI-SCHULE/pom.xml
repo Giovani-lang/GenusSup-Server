@@ -8,11 +8,11 @@
 		<version>3.0.8</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.genus</groupId>
-	<artifactId>Genus</artifactId>
+	<groupId>com.logonedigital</groupId>
+	<artifactId>PI-SCHULE</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Genus</name>
-	<description>Gestion numerique scolaire</description>
+	<name>PI-SCHULE</name>
+	<description>Mini app school</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -75,6 +75,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>2.5.3</version>
 		</dependency>
 
 		<dependency>

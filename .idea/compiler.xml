@@ -21,9 +21,13 @@
         <module name="PI-SCHULE" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="GENUS" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="GENUS" options="-parameters" />
       <module name="PI-SCHULE" options="-parameters" />
     </option>
   </component>

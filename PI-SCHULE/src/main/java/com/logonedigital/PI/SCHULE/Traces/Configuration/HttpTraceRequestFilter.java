@@ -17,8 +17,6 @@ public class HttpTraceRequestFilter extends HttpExchangesFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        boolean isActuatorRoute = request.getServletPath().contains("actuator"); // not trace in the actuator route
-        boolean isTokenGatewayRoute = request.getServletPath().contains("code");
-        return isActuatorRoute || !isTokenGatewayRoute;
+        return request.getServletPath().contains("actuator");
     }
 }

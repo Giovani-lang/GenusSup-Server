@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @SuperBuilder(setterPrefix = "with")
 @Entity
-@Table(name = "Up_Http_Trace")
+@Table(name = "Genus_traces")
 public class GenusHttpTrace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +37,14 @@ public class GenusHttpTrace {
     private String session;
 
     @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    @Column(name = "request", columnDefinition = "TEXT")
+    @Column(name = "request")
     private String request;
 
     @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    @Column(name = "response", columnDefinition = "TEXT")
+    @Column(name = "remote-address")
+    private String remoteAddress;
+
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    @Column(name = "response")
     private String response;
 }
