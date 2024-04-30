@@ -9,5 +9,6 @@ public interface IClasseService {
     ClasseResponse addClasse (ClasseRequest classeRequest);
     List<ClasseResponse> getClasse (Long ecoleId);
     List<ClasseResponse> getClasseByFiliere (Long filiereId);
-    ClasseResponse updateClasse (String nom,ClasseRequest classeRequest);
+    ClasseResponse updateClasse (Long id,ClasseRequest classeRequest);
+    ClasseResponse deleteClasse (Long id);
 }

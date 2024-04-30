@@ -15,11 +15,11 @@ import java.util.Optional;
 public interface OptionRepository extends JpaRepository<Option, Long> {
     Optional<Option> findByNom(String nom);
 
-    @Query(value = "SELECT * FROM `tb_options` WHERE `classe_id` =:c", nativeQuery = true)
+    @Query(value = "SELECT * FROM `tb_options` WHERE `classe_id` =:c AND `is_deleted` = 0", nativeQuery = true)
     List<Option> findByClasse(@Param("c") Long classeId);
 
-    @Query(value = "SELECT o FROM Option o WHERE o.classe.filiere.cycle.ecole.id = :e")
+    @Query(value = "SELECT o FROM Option o WHERE o.classe.filiere.cycle.ecole.id = :e AND o.isDeleted = 0")
     List<Option> findAllByEcole (@Param("e") Long ecoleId);
-    @Query("SELECT o FROM Option o JOIN o.matieres m WHERE m.enseignant.email = :em")
+    @Query("SELECT o FROM Option o JOIN o.matieres m WHERE m.enseignant.email = :em AND o.isDeleted = 0")
     List<Option> findAllByTeacher (@Param("em") String ensEmail);
 }

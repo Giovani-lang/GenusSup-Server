@@ -13,4 +13,5 @@ public class TarifRequest {
     private double montant;
     @NotNull(message = "required field")
     private Long optionId;
+    private boolean isDeleted;
 }

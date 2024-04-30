@@ -15,6 +15,7 @@ public class Tarif {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double montant;
+    private boolean isDeleted = false;
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Option option;
 }

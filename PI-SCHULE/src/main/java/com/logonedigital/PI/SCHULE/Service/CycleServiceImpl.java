@@ -51,5 +51,15 @@ public class CycleServiceImpl implements ICycleService {
             throw new RessourceNotFoundException("Not found");
         }
     }
+    @Override
+    public CycleResponse deleteCycle(Long id) {
+        try{
+            Cycle cycleUpdated = this.cycleRepo.findById(id).get();
+            cycleUpdated.setDeleted(true);
+            return this.cycleMapper.fromCycle(this.cycleRepo.saveAndFlush(cycleUpdated));
+        }catch (NoSuchElementException e){
+            throw new RessourceNotFoundException("Impossible to delete this cycle");
+        }
+    }
 
 }

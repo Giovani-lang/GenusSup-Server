@@ -13,9 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface MatiereRepository extends JpaRepository<Matiere, Long> {
-    @Query(value = "SELECT m FROM Matiere m WHERE m.option.classe.filiere.cycle.ecole.id = :e")
+    @Query(value = "SELECT m FROM Matiere m WHERE m.option.classe.filiere.cycle.ecole.id = :e AND m.isDeleted = 0")
     List<Matiere> findAllByEcole (@Param("e") Long ecoleId);
 
-    @Query(value = "SELECT m FROM Matiere m WHERE m.option.id =:o")
+    @Query(value = "SELECT m FROM Matiere m WHERE m.option.id =:o AND m.isDeleted = 0")
     List<Matiere> findByOption (@Param("o") Long id);
 }

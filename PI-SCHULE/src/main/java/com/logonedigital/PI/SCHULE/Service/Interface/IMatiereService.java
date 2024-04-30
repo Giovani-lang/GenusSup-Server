@@ -13,4 +13,5 @@ public interface IMatiereService {
     List<MatiereResponse> getMatiereByEcole (Long ecoleId);
     List<MatiereResponse> getMatiereByOption (Long id);
     MatiereResponse updateMatiere (Long id,MatiereRequest matiereRequest);
+    MatiereResponse deleteMatiere (Long id);
 }

@@ -27,7 +27,7 @@ public class LoginController {
     private final IUserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@AuthenticationPrincipal @RequestBody @Valid LoginDTO loginDto) {
+    public ResponseEntity<UserResponse> login(@RequestBody @Valid LoginDTO loginDto) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

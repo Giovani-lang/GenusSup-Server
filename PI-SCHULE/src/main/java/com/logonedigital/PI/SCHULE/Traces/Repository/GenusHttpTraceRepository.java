@@ -46,9 +46,7 @@ public class GenusHttpTraceRepository implements HttpExchangeRepository {
                     .withSession(mapper.writeValueAsString(trace.getSession()))
                     .withRemoteAddress(mapper.writeValueAsString(trace.getRequest().getRemoteAddress()))
                     .withResponse(mapper.writeValueAsString(trace.getResponse()))
-                    .build();
-            System.out.println("Trace Session : "+ mapper.writeValueAsString(trace.getSession()));
-            System.out.println("Trace Session : "+ mapper.writeValueAsString(trace.getRequest()));
+                    .build();;
             genusHttpTraceBaseRepository.save(entity);
         } catch (Exception e) {
             log.error("Failed to save trace for request made at {}", trace.getTimestamp());

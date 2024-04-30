@@ -22,6 +22,7 @@ public class Filiere implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    private boolean isDeleted = false;
     @OneToMany(mappedBy = "filiere",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Classe> classes = new ArrayList<>();
     @OneToMany(mappedBy = "department",cascade = CascadeType.ALL, fetch = FetchType.EAGER)

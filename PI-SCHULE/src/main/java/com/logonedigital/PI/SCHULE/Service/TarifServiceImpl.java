@@ -52,5 +52,15 @@ public class TarifServiceImpl implements ITarifService {
            throw new RessourceNotFoundException("Impossible, try again!");
        }
     }
+    @Override
+    public TarifResponse deleteTarif(Long id) {
+       try{
+           Tarif tarifEdited= this.tarifRepo.findById(id).get();
+           tarifEdited.setDeleted(true);
+           return this.tarifMapper.fromTarif(this.tarifRepo.saveAndFlush(tarifEdited));
+       }catch (Exception ex){
+           throw new RessourceNotFoundException("Impossible to delete this tarif");
+       }
+    }
 
 }

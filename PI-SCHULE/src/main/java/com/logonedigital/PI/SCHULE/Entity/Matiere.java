@@ -24,6 +24,7 @@ public class Matiere implements Serializable {
     private Long id;
     private String module,code,intitule;
     private int coefficient;
+    private boolean isDeleted = false;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     private Option option;

@@ -22,6 +22,7 @@ public class Cycle implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    private boolean isDeleted = false;
     @OneToMany(mappedBy = "cycle", cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     private List<Filiere> filieres = new ArrayList<>();
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)

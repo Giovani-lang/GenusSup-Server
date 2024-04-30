@@ -14,4 +14,5 @@ public class FiliereRequest {
     private String nom;
     @NotNull(message = "required field")
     private Long cycleId;
+    private boolean isDeleted;
 }

@@ -71,4 +71,10 @@ public class OptionServiceImpl implements IOptionService {
         newOption.setClasse(classe);
         return this.optionMapper.fromOption(this.optionRepo.saveAndFlush(newOption));
     }
+    @Override
+    public OptionResponse deleteOption(Long id) {
+        Option newOption = this.optionRepo.findById(id).get();
+        newOption.setDeleted(true);
+        return this.optionMapper.fromOption(this.optionRepo.saveAndFlush(newOption));
+    }
 }

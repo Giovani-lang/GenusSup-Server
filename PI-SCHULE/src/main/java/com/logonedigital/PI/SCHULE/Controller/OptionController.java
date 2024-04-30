@@ -45,4 +45,8 @@ public class OptionController {
     public ResponseEntity<OptionResponse> updateOption(@PathVariable(name = "id")Long id,@RequestBody @Valid  OptionRequest option){
         return new ResponseEntity<>(this.optionService.updateOption(id, option), HttpStatus.ACCEPTED);
     }
+    @PatchMapping("/delete/{id}")
+    public ResponseEntity<OptionResponse> deleteOption(@PathVariable(name = "id")Long id){
+        return new ResponseEntity<>(this.optionService.deleteOption(id), HttpStatus.ACCEPTED);
+    }
 }

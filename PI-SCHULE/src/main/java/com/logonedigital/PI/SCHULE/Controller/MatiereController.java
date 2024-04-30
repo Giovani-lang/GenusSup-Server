@@ -42,4 +42,8 @@ public class MatiereController {
     public ResponseEntity<MatiereResponse> updateMatiere(@PathVariable(name = "id")Long id,@RequestBody MatiereRequest matiere){
         return new ResponseEntity<>(this.matiereService.updateMatiere(id, matiere), HttpStatus.ACCEPTED);
     }
+    @PatchMapping("/delete/{id}")
+    public ResponseEntity<MatiereResponse> deleteMatiere(@PathVariable(name = "id")Long id){
+        return new ResponseEntity<>(this.matiereService.deleteMatiere(id), HttpStatus.ACCEPTED);
+    }
 }

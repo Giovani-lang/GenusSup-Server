@@ -12,5 +12,6 @@ public interface IFiliereService {
     List<FiliereResponse> getFiliereByCycle (Long cycleId);
     FiliereResponse getByName(String nom);
     FiliereResponse updateFiliere (Long id,FiliereRequest filiereRequest);
+    FiliereResponse deleteFiliere (Long id);
 
 }

@@ -54,9 +54,9 @@ public class ClasseServiceImpl implements IClasseService {
     }
 
     @Override
-    public ClasseResponse updateClasse(String nom, ClasseRequest classeRequest) throws RessourceNotFoundException {
+    public ClasseResponse updateClasse(Long id, ClasseRequest classeRequest) throws RessourceNotFoundException {
        try {
-           Classe newClasse = this.classeRepo.findByNom(nom).get();
+           Classe newClasse = this.classeRepo.findById(id).get();
            Filiere filiere = this.filiereRepo.findById(classeRequest.getFiliereId())
                    .orElseThrow(() -> new RessourceNotFoundException("This filiere doesn't exist"));
            newClasse.setNom(classeRequest.getNom());
@@ -65,6 +65,16 @@ public class ClasseServiceImpl implements IClasseService {
            return this.classeMapper.fromClasse(this.classeRepo.saveAndFlush(newClasse));
        }catch (NoSuchElementException ex){
            throw new RessourceNotFoundException("Impossible to update this classe!");
+       }
+    }
+    @Override
+    public ClasseResponse deleteClasse(Long id) throws RessourceNotFoundException {
+       try {
+           Classe newClasse = this.classeRepo.findById(id).get();
+           newClasse.setDeleted(true);
+           return this.classeMapper.fromClasse(this.classeRepo.saveAndFlush(newClasse));
+       }catch (NoSuchElementException ex){
+           throw new RessourceNotFoundException("Impossible to delete this classe!");
        }
     }
 

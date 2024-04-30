@@ -11,4 +11,7 @@ public class EcoleModel {
     private Long id;
     private String name;
     private String image_url;
+    private String address;
+    private String city;
+    private String country;
 }

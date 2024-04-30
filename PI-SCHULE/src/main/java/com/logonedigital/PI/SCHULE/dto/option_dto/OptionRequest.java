@@ -16,4 +16,5 @@ public class OptionRequest {
     private String nom;
     @NotNull(message = "required field")
     private Long classeId;
+    private boolean isDeleted;
 }

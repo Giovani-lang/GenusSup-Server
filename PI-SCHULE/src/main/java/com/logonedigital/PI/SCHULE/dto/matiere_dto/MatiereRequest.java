@@ -17,4 +17,5 @@ public class MatiereRequest {
     @NotNull(message = "required field")
     private Long optionId;
     private Long enseignantId;
+    private boolean isDeleted;
 }

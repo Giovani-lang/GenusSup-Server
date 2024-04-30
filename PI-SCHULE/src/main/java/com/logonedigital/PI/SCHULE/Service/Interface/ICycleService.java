@@ -10,4 +10,5 @@ public interface ICycleService {
     CycleResponse addCycle (CycleRequest cycleRequest);
     List<CycleResponse> getCycles(Long id);
     CycleResponse editCycle (Long id, CycleRequest cycleRequest);
+    CycleResponse deleteCycle (Long id);
 }

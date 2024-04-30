@@ -18,4 +18,5 @@ public class ClasseRequest {
     private String niveau;
     @NotNull(message = "required field")
     private Long filiereId;
+    private boolean isDeleted;
 }

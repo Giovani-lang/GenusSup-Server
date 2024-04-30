@@ -44,9 +44,4 @@ public class FicheDePresenceController {
     ){
         return new ResponseEntity<>(this.ficheDePresenceService.getEtudiantList(email),HttpStatus.OK);
     }
-    @PutMapping("/edit")
-    public ResponseEntity<List<FicheDePresenceResponse>> updateFicheDePresence(
-                                                       @RequestBody List<FicheDePresenceUpdated> absence) throws RessourceNotFoundException{
-        return new ResponseEntity<>(this.ficheDePresenceService.updateFicheDePresence(absence),HttpStatus.ACCEPTED);
-    }
 }

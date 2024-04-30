@@ -16,6 +16,4 @@ public interface IFicheDePresenceService {
     FicheDePresenceResponse addJustification(FicheDePresenceRequest ficheDePresence);
     List<FicheDePresenceResponse> getFichesDePresence(Long ecoleId);
     List<FicheDePresenceResponse> getEtudiantList(String email);
-    List<FicheDePresenceResponse> updateFicheDePresence(List<FicheDePresenceUpdated> ficheDePresence);
-
 }

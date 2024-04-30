@@ -89,4 +89,14 @@ public class MatiereServiceImpl implements IMatiereService {
             throw new RessourceNotFoundException("This matiere doesn't exist");
         }
     }
+    @Override
+    public MatiereResponse deleteMatiere(Long id)throws RessourceNotFoundException {
+        try {
+            Matiere newMatiere = this.matiereRepo.findById(id).get();
+            newMatiere.setDeleted(true);
+            return this.matiereMapper.fromMatiere(this.matiereRepo.saveAndFlush(newMatiere));
+        }catch (NoSuchElementException e){
+            throw new RessourceNotFoundException("This matiere can't be deleted");
+        }
+    }
 }

@@ -70,5 +70,16 @@ public class FiliereServiceImpl implements IFiliereService {
            throw new RessourceNotFoundException("Not found");
        }
     }
+    @Override
+    public FiliereResponse deleteFiliere(Long id) {
+
+       try{
+           Filiere newFiliere = this.filiereRepo.findById(id).get();
+           newFiliere.setDeleted(true);
+           return this.filiereMapper.fromFiliere(this.filiereRepo.saveAndFlush(newFiliere));
+       } catch (NoSuchElementException e){
+           throw new RessourceNotFoundException("Can't be deleted");
+       }
+    }
 
 }

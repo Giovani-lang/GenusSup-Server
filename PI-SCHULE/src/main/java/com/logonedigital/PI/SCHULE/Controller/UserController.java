@@ -18,19 +18,19 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<UserResponse> addUser (@RequestBody @Valid UserRequest user){
         return new ResponseEntity<>(this.userService.addUser(user), HttpStatus.CREATED);
     }
-    @GetMapping("{email}")
+    @GetMapping("/detail/{email}")
     public ResponseEntity<UserResponse> getUser (@PathVariable(name = "email") String email){
         return new ResponseEntity<>(this.userService.getUser(email), HttpStatus.OK);
     }
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<List<UserResponse>> getAllUser (){
         return new ResponseEntity<>(this.userService.getAllUser(), HttpStatus.OK);
     }
-    @PutMapping("{email}")
+    @PutMapping("/edit/{email}")
     public ResponseEntity<UserResponse> editUser (@PathVariable(name = "email") String email,@RequestBody  UserRequest user){
         return new ResponseEntity<>(this.userService.editUser(email,user), HttpStatus.ACCEPTED);
     }

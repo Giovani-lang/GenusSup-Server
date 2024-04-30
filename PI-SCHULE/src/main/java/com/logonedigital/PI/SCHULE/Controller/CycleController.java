@@ -30,4 +30,8 @@ public class CycleController {
                                                      @RequestBody @Valid  CycleRequest cycleRequest){
         return new ResponseEntity<>(this.cycleService.editCycle(id, cycleRequest), HttpStatus.ACCEPTED);
     }
+    @PatchMapping("/delete/{id}")
+    public ResponseEntity<CycleResponse> deleteCycle(@PathVariable(name = "id")Long id){
+        return new ResponseEntity<>(this.cycleService.deleteCycle(id), HttpStatus.ACCEPTED);
+    }
 }

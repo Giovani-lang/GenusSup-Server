@@ -74,19 +74,4 @@ public class FicheDePresenceServiceImpl implements IFicheDePresenceService {
         return this.ficheDePresenceMapper.fromFicheDePresence(fiches);
     }
 
-    @Override
-    public List<FicheDePresenceResponse> updateFicheDePresence(List<FicheDePresenceUpdated> ficheDePresence) {
-        try {
-            List<FicheDePresence> fiches = new ArrayList<>();
-                for (FicheDePresenceUpdated request : ficheDePresence) {
-                    FicheDePresence newFicheDePresence = this.ficheDePresenceRepo.findById(request.getId())
-                            .orElseThrow(() -> new RessourceNotFoundException("This ID :" + request.getId() + " doesn't exist"));
-                    newFicheDePresence.setAbsent(request.isAbsent());
-                    fiches.add(newFicheDePresence);
-                }
-            return this.ficheDePresenceMapper.fromFicheDePresence(this.ficheDePresenceRepo.saveAll(fiches));
-        }catch (NoSuchElementException ex){
-            throw new RessourceNotFoundException("An error has occurred while retrieving the data, and the modification cannot be made");
-        }
-    }
 }

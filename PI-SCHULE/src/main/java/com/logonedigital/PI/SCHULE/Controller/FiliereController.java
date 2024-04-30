@@ -42,4 +42,8 @@ public class FiliereController {
                                                          @RequestBody @Valid  FiliereRequest filiere){
         return new ResponseEntity<>(this.filiereService.updateFiliere(id, filiere), HttpStatus.ACCEPTED);
     }
+    @PatchMapping("/delete/{id}")
+    public ResponseEntity<FiliereResponse> deleteFiliere(@PathVariable(name = "id")Long id){
+        return new ResponseEntity<>(this.filiereService.deleteFiliere(id), HttpStatus.ACCEPTED);
+    }
 }

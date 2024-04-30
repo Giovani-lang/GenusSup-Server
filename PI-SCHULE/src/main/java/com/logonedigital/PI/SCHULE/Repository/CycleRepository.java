@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface CycleRepository extends JpaRepository<Cycle,Long> {
-    @Query(value = "SELECT c FROM Cycle c WHERE c.ecole.id = :e")
+    @Query(value = "SELECT c FROM Cycle c WHERE c.ecole.id = :e AND c.isDeleted = 0")
     List<Cycle> findAllByEcole (@Param("e") Long ecoleId);
 }

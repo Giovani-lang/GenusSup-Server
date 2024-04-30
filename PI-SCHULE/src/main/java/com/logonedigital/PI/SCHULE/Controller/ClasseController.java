@@ -31,9 +31,12 @@ public class ClasseController {
     public ResponseEntity<List<ClasseResponse>> getAllClasseByFiliere(@PathVariable(name = "filiereId") Long filiereId){
         return new ResponseEntity<>(this.classeService.getClasseByFiliere(filiereId), HttpStatus.OK);
     }
-    @PutMapping("/edit/{nom}")
-    public ResponseEntity<ClasseResponse> updateClasse(@PathVariable(name = "nom")String nom,
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<ClasseResponse> updateClasse(@PathVariable(name = "id")Long id,
                                                        @RequestBody @Valid  ClasseRequest classeRequest){
-        return new ResponseEntity<>(this.classeService.updateClasse(nom, classeRequest), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(this.classeService.updateClasse(id, classeRequest), HttpStatus.ACCEPTED);
+    }@PatchMapping("/delete/{id}")
+    public ResponseEntity<ClasseResponse> deleteClasse(@PathVariable(name = "id")Long id){
+        return new ResponseEntity<>(this.classeService.deleteClasse(id), HttpStatus.ACCEPTED);
     }
 }

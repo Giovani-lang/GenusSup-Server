@@ -24,6 +24,7 @@ public class Classe implements Serializable {
     private Long id;
     private String nom;
     private String niveau;
+    private boolean isDeleted = false;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Filiere filiere;
     @OneToMany(mappedBy = "classe",fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)

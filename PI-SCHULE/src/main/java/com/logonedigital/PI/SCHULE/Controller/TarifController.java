@@ -31,4 +31,8 @@ public class TarifController {
     private ResponseEntity<TarifResponse> editTarif(@PathVariable(name = "id") Long id,@RequestBody @Valid  TarifRequest tarifRequest){
         return new ResponseEntity<>(this.tarifService.editTarif(id, tarifRequest), HttpStatus.ACCEPTED);
     }
+    @PatchMapping("/delete/{id}")
+    private ResponseEntity<TarifResponse> deleteTarif(@PathVariable(name = "id") Long id){
+        return new ResponseEntity<>(this.tarifService.deleteTarif(id), HttpStatus.ACCEPTED);
+    }
 }

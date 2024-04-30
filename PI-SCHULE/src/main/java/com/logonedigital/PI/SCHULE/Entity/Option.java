@@ -22,6 +22,7 @@ public class Option implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    private boolean isDeleted = false;
     @OneToOne(mappedBy = "option",cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Tarif tarif;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)

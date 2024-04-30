@@ -30,7 +30,4 @@ public class EtudiantResponseDTO {
     private String status;
     private EcoleModel ecole;
     private String dateInscription;
-    private Date createdAt;
-    private Date updatedAt;
-
 }
