@@ -1,8 +1,10 @@
 package com.logonedigital.PI.SCHULE.Service;
 
 import com.logonedigital.PI.SCHULE.Entity.Enseignant;
+import com.logonedigital.PI.SCHULE.Entity.Filiere;
 import com.logonedigital.PI.SCHULE.Entity.Matiere;
 import com.logonedigital.PI.SCHULE.Entity.Option;
+import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.MatiereMapper;
 import com.logonedigital.PI.SCHULE.Repository.EnseignantRepository;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +35,16 @@ public class MatiereServiceImpl implements IMatiereService {
         Option option = this.optionRepo.findById(matiereRequest.getOptionId())
                 .orElseThrow(()-> new RessourceNotFoundException("Option not found"));
         matiere.setOption(option);
+        Optional<Matiere> matiereAsked = this.matiereRepo.getMatire(
+                option.getClasse()
+                        .getFiliere()
+                        .getCycle()
+                        .getEcole()
+                        .getId(),
+                matiereRequest.getIntitule());
+        if (matiereAsked.isPresent()){
+            throw new RessourceExistException("Matiere already exist !!!");
+        }
         if(matiereRequest.getEnseignantId() == null){
             matiere.setEnseignant(null);
         }else{
@@ -70,13 +83,23 @@ public class MatiereServiceImpl implements IMatiereService {
     public MatiereResponse updateMatiere(Long id, MatiereRequest matiereRequest)throws RessourceNotFoundException {
         try {
             Matiere newMatiere = this.matiereRepo.findById(id).get();
+            Option option = this.optionRepo.findById(matiereRequest.getOptionId())
+                    .orElseThrow(() -> new RessourceNotFoundException("Option not found"));
+            newMatiere.setOption(option);
+            Optional<Matiere> matiereAsked = this.matiereRepo.getMatire(
+                    option.getClasse()
+                            .getFiliere()
+                            .getCycle()
+                            .getEcole()
+                            .getId(),
+                    matiereRequest.getIntitule());
+            if (matiereAsked.isPresent()){
+                throw new RessourceExistException("Matiere already exist !!!");
+            }
             newMatiere.setCode(matiereRequest.getCode());
             newMatiere.setCoefficient(matiereRequest.getCoefficient());
             newMatiere.setIntitule(matiereRequest.getIntitule());
             newMatiere.setModule(matiereRequest.getModule());
-            Option option = this.optionRepo.findById(matiereRequest.getOptionId())
-                    .orElseThrow(() -> new RessourceNotFoundException("Option not found"));
-            newMatiere.setOption(option);
             if(matiereRequest.getEnseignantId() == null){
                 newMatiere.setEnseignant(null);
             }else{

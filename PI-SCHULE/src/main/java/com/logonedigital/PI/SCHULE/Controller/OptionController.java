@@ -37,10 +37,6 @@ public class OptionController {
     public ResponseEntity<List<OptionResponse>> getAllOptionForTeacher(@PathVariable(name = "ensEmail") String ensEmail){
         return new ResponseEntity<>(this.optionService.getOptionForTeacher(ensEmail), HttpStatus.OK);
     }
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<OptionResponse> getByName(@PathVariable (name = "id")Long id){
-        return new ResponseEntity<>(this.optionService.getById(id), HttpStatus.OK);
-    }
     @PutMapping("/edit/{id}")
     public ResponseEntity<OptionResponse> updateOption(@PathVariable(name = "id")Long id,@RequestBody @Valid  OptionRequest option){
         return new ResponseEntity<>(this.optionService.updateOption(id, option), HttpStatus.ACCEPTED);

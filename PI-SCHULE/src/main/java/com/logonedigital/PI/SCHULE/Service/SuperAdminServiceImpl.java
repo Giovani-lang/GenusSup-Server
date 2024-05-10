@@ -24,12 +24,12 @@ public class SuperAdminServiceImpl implements ISuperAdminService {
     @Override
     public SuperAdminResponse addSuperAdmin(SuperAdminRequest superAdminRequest) {
         SuperAdmin superAdmin = this.superAdminMapper.fromSuperAdminRequest(superAdminRequest);
-        Optional<SuperAdmin> superAdmin1 = this.superAdminRepo.findByEmail(superAdminRequest.getEmail());
-        Optional<SuperAdmin> superAdmin2 = this.superAdminRepo.findByTelephone(superAdminRequest.getTelephone());
-        if (superAdmin1.isPresent()){
-            throw new RessourceExistException("Email already exist !!!");
-        } else if (superAdmin2.isPresent()) {
-            throw new RessourceExistException("Phone number already exist !!!");
+        Optional<SuperAdmin> superAdminEmail = this.superAdminRepo.findByEmail(superAdminRequest.getEmail());
+        Optional<SuperAdmin> superAdminPhone = this.superAdminRepo.findByTelephone(superAdminRequest.getTelephone());
+        if (superAdminEmail.isPresent()){
+            throw new RessourceExistException("Cet email existe déjà");
+        } else if (superAdminPhone.isPresent()) {
+            throw new RessourceExistException("Ce numéro existe déjà");
         }
         superAdmin.setPassword(encoder.encode(superAdmin.getPassword()));
         superAdmin.setStatus("Actif");
@@ -55,7 +55,6 @@ public class SuperAdminServiceImpl implements ISuperAdminService {
     public SuperAdminResponse editSuperAdmin(String email, SuperAdminRequest superAdmin) {
         try{
             SuperAdmin newSuperAdmin = this.superAdminRepo.findByEmail(email).get();
-
             newSuperAdmin.setImage_url(superAdmin.getImage_url());
             newSuperAdmin.setPrenom(superAdmin.getPrenom());
             newSuperAdmin.setNom(superAdmin.getNom());

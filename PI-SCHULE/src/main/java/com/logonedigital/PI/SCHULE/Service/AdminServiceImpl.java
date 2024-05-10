@@ -30,12 +30,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public AdminResponseDTO addAdministration(AdminRequestDTO adminRequestDTO) throws RessourceExistException {
         Administration admin = this.adminMapper.fromAdminRequestDTO(adminRequestDTO);
-        Optional<Administration> userDB = this.adminRepo.findByEmail(adminRequestDTO.getEmail());
-        Optional<Administration> user = this.adminRepo.findByTelephone(adminRequestDTO.getTelephone());
-        if (userDB.isPresent()){
-            throw new RessourceExistException("Admin with this email already exist !!!");
-        } else if (user.isPresent()) {
-            throw new RessourceExistException("Admin with this phone already exist !!!");
+        Optional<Administration> adminEmail = this.adminRepo.findByEmail(adminRequestDTO.getEmail());
+        Optional<Administration> adminPhone = this.adminRepo.findByTelephone(adminRequestDTO.getTelephone());
+        if (adminEmail.isPresent()){
+            throw new RessourceExistException("Cet email existe déjà");
+        } else if (adminPhone.isPresent()) {
+            throw new RessourceExistException("Ce numéro existe déjà");
         }
         Ecole ecole = this.ecoleRepo.findById(adminRequestDTO.getEcoleId())
                 .orElseThrow(()-> new RessourceNotFoundException("School"+adminRequestDTO.getEcoleId()+"doesn't exsit" ));

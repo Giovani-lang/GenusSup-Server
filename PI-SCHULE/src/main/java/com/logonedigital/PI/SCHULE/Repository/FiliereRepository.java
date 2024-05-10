@@ -12,11 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface FiliereRepository extends JpaRepository<Filiere,Long> {
-    Optional<Filiere> findByNom (String nom);
 
     @Query(value = "SELECT * FROM `tb_filieres` WHERE `cycle_id` =:c AND `is_deleted` = 0", nativeQuery = true)
     List<Filiere> findByCycle (@Param("c") Long cycleId);
 
     @Query(value = "SELECT f FROM Filiere f WHERE f.cycle.ecole.id = :e AND f.isDeleted = 0")
     List<Filiere> findAllByEcole (@Param("e") Long ecoleId);
+    @Query(value = "SELECT f FROM Filiere f WHERE f.cycle.id = :e AND f.nom =:n AND f.isDeleted = 0")
+    Optional<Filiere> getFiliere (@Param("e") Long cycleId, @Param("n") String filiere);
 }

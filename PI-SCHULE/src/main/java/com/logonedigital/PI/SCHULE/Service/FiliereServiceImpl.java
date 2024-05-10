@@ -3,6 +3,7 @@ package com.logonedigital.PI.SCHULE.Service;
 import com.logonedigital.PI.SCHULE.Entity.Cycle;
 import com.logonedigital.PI.SCHULE.Entity.Ecole;
 import com.logonedigital.PI.SCHULE.Entity.Filiere;
+import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.FiliereMapper;
 import com.logonedigital.PI.SCHULE.Repository.CycleRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,10 @@ public class FiliereServiceImpl implements IFiliereService {
     @Override
     public FiliereResponse addFiliere(FiliereRequest filiereRequest) {
         Filiere filiere = this.filiereMapper.fromFiliereRequest(filiereRequest);
+        Optional<Filiere> filiereAsked = this.filiereRepo.getFiliere(filiereRequest.getCycleId(), filiereRequest.getNom());
+        if (filiereAsked.isPresent()){
+            throw new RessourceExistException("Filiere already exist !!!");
+        }
         Cycle cycle = this.cycleRepo.findById(filiereRequest.getCycleId())
                 .orElseThrow(()->new RessourceNotFoundException("Not found, try again"));
         filiere.setCycle(cycle);
@@ -51,15 +57,14 @@ public class FiliereServiceImpl implements IFiliereService {
     }
 
     @Override
-    public FiliereResponse getByName(String nom) {
-        return this.filiereMapper.fromFiliere(this.filiereRepo.findByNom(nom).get());
-    }
-
-    @Override
     public FiliereResponse updateFiliere(Long id, FiliereRequest filiereRequest) {
 
        try{
            Filiere newFiliere = this.filiereRepo.findById(id).get();
+           Optional<Filiere> filiereAsked = this.filiereRepo.getFiliere(filiereRequest.getCycleId(), filiereRequest.getNom());
+           if (filiereAsked.isPresent()){
+               throw new RessourceExistException("Filiere already exist !!!");
+           }
            Filiere filiere = this.filiereMapper.fromFiliereRequest(filiereRequest);
            Cycle cycle = this.cycleRepo.findById(filiereRequest.getCycleId())
                    .orElseThrow(()->new RessourceNotFoundException("Not found, try again"));

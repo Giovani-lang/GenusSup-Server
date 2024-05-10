@@ -2,6 +2,8 @@ package com.logonedigital.PI.SCHULE.Service;
 
 import com.logonedigital.PI.SCHULE.Entity.Cycle;
 import com.logonedigital.PI.SCHULE.Entity.Ecole;
+import com.logonedigital.PI.SCHULE.Entity.SuperAdmin;
+import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.CycleMapper;
 import com.logonedigital.PI.SCHULE.Repository.CycleRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,10 @@ public class CycleServiceImpl implements ICycleService {
     @Override
     public CycleResponse addCycle(CycleRequest cycleRequest) {
         Cycle cycle = this.cycleMapper.fromCycleRequest(cycleRequest);
+        Optional<Cycle> cycleAsked = this.cycleRepo.getCycle(cycleRequest.getEcoleId(), cycleRequest.getNom());
+        if (cycleAsked.isPresent()){
+            throw new RessourceExistException("Cycle already exist !!!");
+        }
         Ecole ecole = this.ecoleRepo.findById(cycleRequest.getEcoleId())
                 .orElseThrow(()->new RessourceNotFoundException("Not found, try again"));
         cycle.setEcole(ecole);
@@ -44,6 +51,10 @@ public class CycleServiceImpl implements ICycleService {
     public CycleResponse editCycle(Long id, CycleRequest cycleRequest) {
         try{
             Cycle cycle = this.cycleMapper.fromCycleRequest(cycleRequest);
+            Optional<Cycle> cycleAsked = this.cycleRepo.getCycle(cycleRequest.getEcoleId(), cycleRequest.getNom());
+            if (cycleAsked.isPresent()){
+                throw new RessourceExistException("Cycle already exist !!!");
+            }
             Cycle cycleUpdated = this.cycleRepo.findById(id).get();
             cycleUpdated.setNom(cycle.getNom());
             return this.cycleMapper.fromCycle(this.cycleRepo.saveAndFlush(cycleUpdated));

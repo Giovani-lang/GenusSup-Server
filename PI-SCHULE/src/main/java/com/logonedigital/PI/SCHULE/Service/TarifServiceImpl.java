@@ -1,7 +1,9 @@
 package com.logonedigital.PI.SCHULE.Service;
 
+import com.logonedigital.PI.SCHULE.Entity.Filiere;
 import com.logonedigital.PI.SCHULE.Entity.Option;
 import com.logonedigital.PI.SCHULE.Entity.Tarif;
+import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.TarifMapper;
 import com.logonedigital.PI.SCHULE.Repository.OptionRepository;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TarifServiceImpl implements ITarifService {
@@ -24,6 +29,10 @@ public class TarifServiceImpl implements ITarifService {
     @Override
     public TarifResponse addTarif(TarifRequest tarif) {
         Tarif tarifSaved = this.tarifMapper.fromTarifRequest(tarif);
+        Optional<Tarif> tarifAsked = this.tarifRepo.getTarif( tarif.getOptionId());
+        if (tarifAsked.isPresent()){
+            throw new RessourceExistException("Tarif already exist !!!");
+        }
         Option option = this.optionRepo.findById(tarif.getOptionId())
                 .orElseThrow(()-> new RessourceNotFoundException("This option doesn't exist"));
         tarifSaved.setOption(option);
@@ -43,12 +52,16 @@ public class TarifServiceImpl implements ITarifService {
     public TarifResponse editTarif(Long id, TarifRequest tarif) {
        try{
            Tarif tarifEdited= this.tarifRepo.findById(id).get();
+           Optional<Tarif> tarifAsked = this.tarifRepo.getTarif( tarif.getOptionId());
+           if (tarifAsked.isPresent()){
+               throw new RessourceExistException("Tarif already exist !!!");
+           }
            Option option = this.optionRepo.findById(tarif.getOptionId())
                    .orElseThrow(()-> new RessourceNotFoundException("This option doesn't exist"));
            tarifEdited.setOption(option);
            tarifEdited.setMontant(tarif.getMontant());
            return this.tarifMapper.fromTarif(this.tarifRepo.saveAndFlush(tarifEdited));
-       }catch (Exception ex){
+       }catch (NoSuchElementException ex){
            throw new RessourceNotFoundException("Impossible, try again!");
        }
     }

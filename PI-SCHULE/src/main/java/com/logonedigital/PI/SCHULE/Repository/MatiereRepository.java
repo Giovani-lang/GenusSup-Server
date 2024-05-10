@@ -18,4 +18,7 @@ public interface MatiereRepository extends JpaRepository<Matiere, Long> {
 
     @Query(value = "SELECT m FROM Matiere m WHERE m.option.id =:o AND m.isDeleted = 0")
     List<Matiere> findByOption (@Param("o") Long id);
+
+    @Query(value = "SELECT m FROM Matiere m WHERE m.option.classe.filiere.cycle.ecole.id = :e AND m.intitule =:i AND m.isDeleted = 0")
+    Optional<Matiere> getMatire (@Param("e") Long ecoleId,@Param("i") String intitule);
 }

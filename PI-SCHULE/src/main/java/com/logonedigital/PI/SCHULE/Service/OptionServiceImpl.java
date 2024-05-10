@@ -3,6 +3,7 @@ package com.logonedigital.PI.SCHULE.Service;
 import com.logonedigital.PI.SCHULE.Entity.Classe;
 import com.logonedigital.PI.SCHULE.Entity.Filiere;
 import com.logonedigital.PI.SCHULE.Entity.Option;
+import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.OptionMapper;
 import com.logonedigital.PI.SCHULE.Repository.ClasseRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,10 @@ public class OptionServiceImpl implements IOptionService {
     @Override
     public OptionResponse addOption(OptionRequest optionRequest) {
         Option option = this.optionMapper.fromOptionRequest(optionRequest);
+        Optional<Option> filiereAsked = this.optionRepo.getOption(optionRequest.getClasseId(), optionRequest.getNom());
+        if (filiereAsked.isPresent()){
+            throw new RessourceExistException("Option already exist !!!");
+        }
         Classe classe = this.classeRepo.findById(optionRequest.getClasseId())
                 .orElseThrow(()-> new RessourceNotFoundException("Classe not found"));
         option.setClasse(classe);
@@ -58,13 +64,12 @@ public class OptionServiceImpl implements IOptionService {
     }
 
     @Override
-    public OptionResponse getById(Long id) {
-        return this.optionMapper.fromOption(this.optionRepo.findById(id).get());
-    }
-
-    @Override
     public OptionResponse updateOption(Long id, OptionRequest optionRequest) {
         Option newOption = this.optionRepo.findById(id).get();
+        Optional<Option> filiereAsked = this.optionRepo.getOption(optionRequest.getClasseId(), optionRequest.getNom());
+        if (filiereAsked.isPresent()){
+            throw new RessourceExistException("Option already exist !!!");
+        }
         newOption.setNom(optionRequest.getNom());
         Classe classe = this.classeRepo.findById(optionRequest.getClasseId())
                 .orElseThrow(()-> new RessourceNotFoundException("Classe not found"));

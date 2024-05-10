@@ -17,7 +17,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
    @ExceptionHandler(RessourceNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleRessourceNotFoundException(RessourceNotFoundException ex){
         ErrorMessage errorMessage = ErrorMessage.build(
@@ -30,7 +29,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(RessourceExistException.class)
     public Map<String,String> handleResourceExistException(RessourceExistException ex){
         Map<String,String> errorMap = new HashMap<>();
@@ -38,7 +37,6 @@ public class GlobalExceptionHandler {
         return errorMap;
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String,String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
         Map<String,String> errorMap = new HashMap<>();

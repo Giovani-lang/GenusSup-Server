@@ -36,12 +36,12 @@ public class EnseignantServiceImpl implements IEnseignantService {
     public EnseignantResponseDTO addEnseignant(EnseignantRequestDTO enseignantRequestDTO) throws RessourceExistException {
 
         Enseignant ens = this.enseignantMapper.fromEnseignantRequestDTO(enseignantRequestDTO);
-        Optional<Enseignant> ens1 = this.enseignantRepo.findByEmail(enseignantRequestDTO.getEmail());
-        Optional<Enseignant> ens2 = this.enseignantRepo.findByTelephone(enseignantRequestDTO.getTelephone());
-        if (ens1.isPresent()){
-            throw new RessourceExistException("Teacher with this email already exist !!!");
-        } else if (ens2.isPresent()) {
-            throw new RessourceExistException("Teacher with this phone already exist !!!");
+        Optional<Enseignant> ensEmail = this.enseignantRepo.findByEmail(enseignantRequestDTO.getEmail());
+        Optional<Enseignant> ensPhone = this.enseignantRepo.findByTelephone(enseignantRequestDTO.getTelephone());
+        if (ensEmail.isPresent()){
+            throw new RessourceExistException("Cet email existe déjà");
+        } else if (ensPhone.isPresent()) {
+            throw new RessourceExistException("Ce numéro existe déjà");
         }
         Ecole ecole = this.ecoleRepo.findById(enseignantRequestDTO.getEcoleId())
                 .orElseThrow(()-> new RessourceNotFoundException("School"+enseignantRequestDTO.getEcoleId()+"doesn't exist" ));

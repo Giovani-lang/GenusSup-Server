@@ -10,7 +10,6 @@ public interface IFiliereService {
     FiliereResponse addFiliere (FiliereRequest filiereRequest);
     List<FiliereResponse> getFiliere (Long ecoleId);
     List<FiliereResponse> getFiliereByCycle (Long cycleId);
-    FiliereResponse getByName(String nom);
     FiliereResponse updateFiliere (Long id,FiliereRequest filiereRequest);
     FiliereResponse deleteFiliere (Long id);
 

@@ -14,4 +14,6 @@ import java.util.Optional;
 public interface TarifRepository extends JpaRepository<Tarif, Long> {
     @Query(value = "SELECT t FROM Tarif t WHERE t.option.classe.filiere.cycle.ecole.id = :e AND t.isDeleted = 0")
     List<Tarif> findAllByEcole (@Param("e") Long ecoleId);
+    @Query(value = "SELECT t FROM Tarif t WHERE t.option.id = :o AND t.isDeleted = 0")
+    Optional<Tarif> getTarif (@Param("o") Long optionId);
 }

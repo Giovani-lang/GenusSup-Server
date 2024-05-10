@@ -33,10 +33,6 @@ public class FiliereController {
         return new ResponseEntity<>(this.filiereService.getFiliereByCycle(cycleId), HttpStatus.OK);
     }
 
-    @GetMapping("/detail/{nom}")
-    public ResponseEntity<FiliereResponse> getByName(@PathVariable (name = "nom")String nom){
-        return new ResponseEntity<>(this.filiereService.getByName(nom), HttpStatus.OK);
-    }
     @PutMapping("/edit/{id}")
     public ResponseEntity<FiliereResponse> updateFiliere(@PathVariable(name = "id")Long id,
                                                          @RequestBody @Valid  FiliereRequest filiere){

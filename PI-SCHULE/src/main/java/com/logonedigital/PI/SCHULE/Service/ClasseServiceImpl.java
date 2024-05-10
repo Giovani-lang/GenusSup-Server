@@ -2,6 +2,7 @@ package com.logonedigital.PI.SCHULE.Service;
 
 import com.logonedigital.PI.SCHULE.Entity.Classe;
 import com.logonedigital.PI.SCHULE.Entity.Filiere;
+import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.ClasseMapper;
 import com.logonedigital.PI.SCHULE.Repository.ClasseRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +30,10 @@ public class ClasseServiceImpl implements IClasseService {
     @Override
     public ClasseResponse addClasse(ClasseRequest classeRequest) {
         Classe classe = this.classeMapper.fromClasseRequest(classeRequest);
+        Optional<Classe> classeAsked = this.classeRepo.getClasse(classeRequest.getFiliereId(), classeRequest.getNom());
+        if (classeAsked.isPresent()){
+            throw new RessourceExistException("Classe already exist !!!");
+        }
         Filiere filiere = this.filiereRepo.findById(classeRequest.getFiliereId())
                 .orElseThrow(() -> new RessourceNotFoundException("This filiere doesn't exist"));
         classe.setFiliere(filiere);
@@ -57,6 +63,10 @@ public class ClasseServiceImpl implements IClasseService {
     public ClasseResponse updateClasse(Long id, ClasseRequest classeRequest) throws RessourceNotFoundException {
        try {
            Classe newClasse = this.classeRepo.findById(id).get();
+           Optional<Classe> classeAsked = this.classeRepo.getClasse(classeRequest.getFiliereId(), classeRequest.getNom());
+           if (classeAsked.isPresent() && newClasse.getNiveau().equals(classeAsked.get().getNiveau()) ){
+               throw new RessourceExistException("Classe already exist !!!");
+           }
            Filiere filiere = this.filiereRepo.findById(classeRequest.getFiliereId())
                    .orElseThrow(() -> new RessourceNotFoundException("This filiere doesn't exist"));
            newClasse.setNom(classeRequest.getNom());

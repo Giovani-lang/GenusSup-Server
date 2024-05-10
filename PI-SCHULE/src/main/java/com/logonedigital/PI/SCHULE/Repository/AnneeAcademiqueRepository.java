@@ -16,4 +16,7 @@ public interface AnneeAcademiqueRepository extends JpaRepository<AnneeAcademique
     List<AnneeAcademique> findByEcole(@Param("e")Long ecoleId);
     @Query(value = "SELECT a.annees FROM AnneeAcademique a WHERE a.ecole.id =:e AND a.annees =:a")
     Optional<AnneeAcademique> findAnneeByEcole(@Param("e")Long ecoleId,@Param("a")String annees);
+
+    @Query(value = "SELECT a FROM AnneeAcademique a WHERE ecole.id =:e AND a.annees =:an")
+    Optional<AnneeAcademique> getAnnee(@Param("e")Long ecoleId,@Param("an")String annees);
 }

@@ -2,6 +2,7 @@ package com.logonedigital.PI.SCHULE.Service;
 
 import com.logonedigital.PI.SCHULE.Entity.AnneeAcademique;
 import com.logonedigital.PI.SCHULE.Entity.Ecole;
+import com.logonedigital.PI.SCHULE.Entity.Filiere;
 import com.logonedigital.PI.SCHULE.Exception.RessourceExistException;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.AnneeAcademiqueMapper;
@@ -27,6 +28,13 @@ public class AnneeAcademiqueServiceImpl implements IAnneeAcademiqueService {
     @Override
     public AnneeAcademiqueResponse addAnnee(AnneeAcademiqueRequest anneeAcademiqueRequest) {
         AnneeAcademique anneeAcademique = this.anneeAcademiqueMapper.fromAnneeAcademiqueRequest(anneeAcademiqueRequest);
+        Optional<AnneeAcademique> anneeAsked = this.anneeAcademiqueRepo.getAnnee(
+                anneeAcademiqueRequest.getEcoleId(),
+                anneeAcademique.getAnnees()
+        );
+        if (anneeAsked.isPresent()){
+            throw new RessourceExistException("Annee already exist !!!");
+        }
         Optional<AnneeAcademique> annee = this.anneeAcademiqueRepo.findAnneeByEcole(anneeAcademiqueRequest.getEcoleId(),
                 anneeAcademiqueRequest.getAnnees());
         if (annee.isPresent()){
@@ -60,6 +68,13 @@ public class AnneeAcademiqueServiceImpl implements IAnneeAcademiqueService {
     public AnneeAcademiqueResponse editAnnee(Long id, AnneeAcademiqueRequest anneeAcademiqueRequest)throws RessourceNotFoundException {
        try {
            AnneeAcademique anneeAcademiqueUpdated = this.anneeAcademiqueRepo.findById(id).get();
+           Optional<AnneeAcademique> anneeAsked = this.anneeAcademiqueRepo.getAnnee(
+                   anneeAcademiqueRequest.getEcoleId(),
+                   anneeAcademiqueRequest.getAnnees()
+           );
+           if (anneeAsked.isPresent()){
+               throw new RessourceExistException("Annee already exist !!!");
+           }
            AnneeAcademique anneeAcademique = this.anneeAcademiqueMapper.fromAnneeAcademiqueRequest(anneeAcademiqueRequest);
            anneeAcademiqueUpdated.setAnnees(anneeAcademique.getAnnees());
            return this.anneeAcademiqueMapper.fromAnneeAcademique(this.anneeAcademiqueRepo.saveAndFlush(anneeAcademiqueUpdated));

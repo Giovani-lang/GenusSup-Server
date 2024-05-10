@@ -11,7 +11,6 @@ public interface IOptionService {
     List<OptionResponse> getOption (Long ecoleId);
     List<OptionResponse> getOptionByClasse (Long classeId);
     List<OptionResponse> getOptionForTeacher (String ensEmail);
-    OptionResponse getById(Long id);
     OptionResponse updateOption (Long id,OptionRequest optionRequest);
     OptionResponse deleteOption (Long id);
 }

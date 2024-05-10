@@ -51,13 +51,13 @@ public class EtudiantServiceImpl implements IEtudiantService {
 
     @Override
     public EtudiantResponseDTO addEtudiant(EtudiantRequestDTO etudiantRequestDTO) throws RessourceExistException {
-        Optional<Etudiant> etu1 = this.etudiantRepo.findByEmail(etudiantRequestDTO.getEmail());
-        Optional<Etudiant> etu2 = this.etudiantRepo.findByTelephone(etudiantRequestDTO.getTelephone());
+        Optional<Etudiant> etuEmail = this.etudiantRepo.findByEmail(etudiantRequestDTO.getEmail());
+        Optional<Etudiant> etuPhone = this.etudiantRepo.findByTelephone(etudiantRequestDTO.getTelephone());
         Etudiant etu = this.etudiantMapper.fromEtudiantRequestDTO(etudiantRequestDTO);
-        if (etu1.isPresent()){
-            throw new RessourceExistException("Student with this email already exist !!!");
-        } else if (etu2.isPresent()) {
-            throw new RessourceExistException("Student with this phone already exist !!!");
+        if (etuEmail.isPresent()){
+            throw new RessourceExistException("Cet email existe déjà");
+        } else if (etuPhone.isPresent()) {
+            throw new RessourceExistException("Ce numéro existe déjà");
         }
         Ecole ecole = this.ecoleRepo.findById(etudiantRequestDTO.getEcoleId())
                 .orElseThrow(()-> new RessourceNotFoundException("School"+etudiantRequestDTO.getEcoleId()+"doesn't exsit" ));
@@ -109,7 +109,6 @@ public class EtudiantServiceImpl implements IEtudiantService {
 try {
     Etudiant etu = this.etudiantRepo.findByMatricule(matricule)
             .orElseThrow(() -> new RessourceNotFoundException("This matricule " + matricule + " doesn't exist in our data base"));
-
     Etudiant etudiant = this.etudiantMapper.fromEtudiantRequestDTO(etudiantRequestDTO);
     etu.setEmail(etudiant.getEmail());
     etu.setImage_url(etudiant.getImage_url());
