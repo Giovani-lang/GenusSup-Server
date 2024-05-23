@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class OptionModel {
     private Long id;
     private String nom;
+    private TarifModel tarif;
+    private ClasseModel classe;
 }

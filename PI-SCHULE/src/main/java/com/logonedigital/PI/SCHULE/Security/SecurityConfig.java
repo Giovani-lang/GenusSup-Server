@@ -18,7 +18,7 @@ public class SecurityConfig {
 
     private static final String[] UN_SECURE_URLs = {
             "/api/v1/users/detail/**",
-            "/api/v1/users/edit/* *",
+            "/api/v1/users/edit/**",
     };
     private static final String[] SCHOOL_SECURE_URLs = {
             "/api/v1/anneeAcademique/getAll/**",

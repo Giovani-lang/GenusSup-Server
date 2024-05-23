@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ClasseModel {
     private Long id;
     private String nom;
+    private FiliereModel filiere;
 }

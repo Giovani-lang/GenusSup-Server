@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class AppartenanceResponse {
     private Long id;
     private EtudiantModel etudiant;
-    private OptionResponse option;
+    private OptionModel option;
     private AnneeAcademiqueModel anneeAcademique;
 }
