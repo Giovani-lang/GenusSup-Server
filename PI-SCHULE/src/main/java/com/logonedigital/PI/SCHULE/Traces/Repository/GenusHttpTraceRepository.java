@@ -9,6 +9,7 @@ import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.Date;
@@ -36,15 +37,23 @@ public class GenusHttpTraceRepository implements HttpExchangeRepository {
             ObjectMapper mapper = new ObjectMapper();
             lastTrace.set(trace);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String remoteAddress = "unknown";
+            String sessionId = "no-session";
 
+            // Extract remoteAddress and sessionId from WebAuthenticationDetails if available
+            if (authentication != null && authentication.getDetails() instanceof WebAuthenticationDetails) {
+                WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
+                remoteAddress = details.getRemoteAddress();
+                sessionId = details.getSessionId();
+            }
             GenusHttpTrace entity = GenusHttpTrace.builder().withTimestamp(
                             Date.from(trace.getTimestamp())
                     )
                     .withPrincipal(authentication.getPrincipal().toString())
                     .withApiPath(trace.getRequest().getUri().toString())
                     .withRequest(mapper.writeValueAsString(trace.getRequest()))
-                    .withSession(mapper.writeValueAsString(trace.getSession()))
-                    .withRemoteAddress(mapper.writeValueAsString(trace.getRequest().getRemoteAddress()))
+                    .withSession(sessionId)
+                    .withRemoteAddress(remoteAddress)
                     .withResponse(mapper.writeValueAsString(trace.getResponse()))
                     .build();;
             genusHttpTraceBaseRepository.save(entity);

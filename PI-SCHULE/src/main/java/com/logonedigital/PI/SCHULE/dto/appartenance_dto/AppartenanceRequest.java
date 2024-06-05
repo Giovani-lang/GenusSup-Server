@@ -1,5 +1,6 @@
 package com.logonedigital.PI.SCHULE.dto.appartenance_dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,6 @@ public class AppartenanceRequest {
     private Long optionId;
     @NotNull(message = "required field")
     private Long anneeAcademiqueId;
+    @NotEmpty(message = "required field")
+    private String status;
 }

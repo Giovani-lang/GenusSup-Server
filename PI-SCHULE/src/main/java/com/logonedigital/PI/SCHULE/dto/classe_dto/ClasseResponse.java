@@ -14,7 +14,7 @@ import java.util.List;
 public class ClasseResponse {
     private Long id;
     private String nom;
-    private String niveau;
+    private int niveau;
     private FiliereModel filiere;
     private List<OptionModel> options;
 }

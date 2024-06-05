@@ -1,8 +1,10 @@
 package com.logonedigital.PI.SCHULE.Entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Columns;
 
 
 import java.io.Serial;
@@ -21,9 +23,10 @@ Note  implements Serializable {
     private static final Long serialVersionUID = 1L;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private float noteControle;
-    private float noteSession;
+    @Column(nullable = true)
+    private Float pondCC,pondSN,pondRT,noteControle,noteSession,noteRattrapage;
     private String periode;
+
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
     private Matiere matiere;
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)

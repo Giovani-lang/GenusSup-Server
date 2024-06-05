@@ -12,14 +12,11 @@ import lombok.NoArgsConstructor;
 public class NoteRequest {
 
     @NotNull(message = "required field")
-    private Long matiereId;
+    private Long matiereId,etudiantId,anneeAcademiqueId;
     @NotEmpty(message ="required field")
     private String periode;
+    private Float pondCC,pondSN,pondRT;
     @Min(value = 0,message = "you can't enter a value above 0")
     @Max(value = 20,message = "you can't exceed 20")
-    private float noteControle,noteSession;
-    @NotNull(message = "required field")
-    private Long etudiantId;
-    @NotNull(message = "required field")
-    private Long anneeAcademiqueId;
+    private Float noteControle,noteSession,noteRattrapage;
 }

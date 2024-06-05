@@ -64,7 +64,7 @@ public class ClasseServiceImpl implements IClasseService {
        try {
            Classe newClasse = this.classeRepo.findById(id).get();
            Optional<Classe> classeAsked = this.classeRepo.getClasse(classeRequest.getFiliereId(), classeRequest.getNom());
-           if (classeAsked.isPresent() && newClasse.getNiveau().equals(classeAsked.get().getNiveau()) ){
+           if (classeAsked.isPresent() && newClasse.getNiveau() == (classeAsked.get().getNiveau()) ){
                throw new RessourceExistException("Classe already exist !!!");
            }
            Filiere filiere = this.filiereRepo.findById(classeRequest.getFiliereId())

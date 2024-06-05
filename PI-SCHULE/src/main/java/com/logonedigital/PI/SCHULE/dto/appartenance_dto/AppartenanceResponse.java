@@ -16,4 +16,5 @@ public class AppartenanceResponse {
     private EtudiantModel etudiant;
     private OptionModel option;
     private AnneeAcademiqueModel anneeAcademique;
+    private String status;
 }

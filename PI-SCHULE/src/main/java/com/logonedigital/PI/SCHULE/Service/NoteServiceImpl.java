@@ -37,6 +37,10 @@ public class NoteServiceImpl implements INoteService {
     @Override
     public NoteResponse addNote(NoteRequest noteRequest) throws RessourceExistException {
         Note note = this.noteMapper.fromNoteRequest(noteRequest);
+        Optional<Note> verifiedNote = this.noteRepo.getNote(noteRequest.getEtudiantId(), noteRequest.getMatiereId());
+        if(verifiedNote.isPresent()){
+            throw new RessourceExistException("Already exist");
+        }
         Matiere matiere = this.matiereRepo.findById(noteRequest.getMatiereId())
                 .orElseThrow(()->new RessourceNotFoundException("Not found"));
         note.setMatiere(matiere);
@@ -96,6 +100,10 @@ public class NoteServiceImpl implements INoteService {
            newNote.setAnneeAcademique(anneeAcademique);
            newNote.setNoteControle(noteRequest.getNoteControle());
            newNote.setNoteSession(noteRequest.getNoteSession());
+           newNote.setNoteRattrapage(noteRequest.getNoteRattrapage());
+           newNote.setPondCC(noteRequest.getPondCC());
+           newNote.setPondSN(noteRequest.getPondSN());
+           newNote.setPondRT(noteRequest.getPondRT());
            newNote.setPeriode(noteRequest.getPeriode());
            return this.noteMapper.fromNote(this.noteRepo.save(newNote));
        }catch (NoSuchElementException ex){

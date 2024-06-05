@@ -23,7 +23,7 @@ public class Classe implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    private String niveau;
+    private int niveau;
     private boolean isDeleted = false;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Filiere filiere;

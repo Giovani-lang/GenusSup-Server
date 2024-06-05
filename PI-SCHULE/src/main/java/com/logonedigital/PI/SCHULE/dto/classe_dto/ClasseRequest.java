@@ -14,8 +14,8 @@ import java.util.List;
 public class ClasseRequest {
     @NotEmpty(message = "required field")
     private String nom;
-    @NotEmpty(message = "required field")
-    private String niveau;
+    @NotNull(message = "required field")
+    private int niveau;
     @NotNull(message = "required field")
     private Long filiereId;
     private boolean isDeleted;

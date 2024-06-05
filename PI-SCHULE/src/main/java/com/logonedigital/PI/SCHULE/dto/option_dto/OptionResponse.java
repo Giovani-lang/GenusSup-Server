@@ -3,6 +3,7 @@ package com.logonedigital.PI.SCHULE.dto.option_dto;
 import com.logonedigital.PI.SCHULE.Model.ClasseModel;
 import com.logonedigital.PI.SCHULE.Model.FiliereModel;
 import com.logonedigital.PI.SCHULE.Model.TarifModel;
+import com.logonedigital.PI.SCHULE.dto.classe_dto.ClasseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NoteResponse {
     private Long id;
-    private MatiereModel matiere;
-    private float noteControle;
-    private float noteSession;
-    private String periode;
     private EtudiantModel etudiant;
+    private MatiereModel matiere;
+    private String periode;
     private AnneeAcademiqueModel anneeAcademique;
+    private Float pondCC,pondSN,pondRT,noteControle,noteSession,noteRattrapage;
+
 }

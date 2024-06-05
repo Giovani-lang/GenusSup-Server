@@ -19,6 +19,7 @@ public class Appartenance implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String status;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Etudiant etudiant;
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
