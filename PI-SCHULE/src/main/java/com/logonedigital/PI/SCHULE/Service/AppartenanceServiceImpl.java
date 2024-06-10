@@ -1,9 +1,6 @@
 package com.logonedigital.PI.SCHULE.Service;
 
-import com.logonedigital.PI.SCHULE.Entity.AnneeAcademique;
-import com.logonedigital.PI.SCHULE.Entity.Appartenance;
-import com.logonedigital.PI.SCHULE.Entity.Etudiant;
-import com.logonedigital.PI.SCHULE.Entity.Option;
+import com.logonedigital.PI.SCHULE.Entity.*;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.AppartenanceMapper;
 import com.logonedigital.PI.SCHULE.Repository.AnneeAcademiqueRepository;
@@ -28,6 +25,8 @@ public class AppartenanceServiceImpl implements IAppartenanceService {
     private final EtudiantRepository etudiantRepo;
     private final OptionRepository optionRepo;
     private final AppartenanceMapper appartenanceMapper;
+    private final EmailService emailService;
+
 
     @Override
     public AppartenanceResponse addAppartenance(AppartenanceRequest appartenanceRequest) {
@@ -41,7 +40,10 @@ public class AppartenanceServiceImpl implements IAppartenanceService {
         AnneeAcademique anneeAcademique = this.anneeAcademiqueRepo.findById(appartenanceRequest.getAnneeAcademiqueId())
                 .orElseThrow(()-> new RessourceNotFoundException("Not annee academique matches with id: "+appartenanceRequest.getAnneeAcademiqueId()));
         appartenance.setAnneeAcademique(anneeAcademique);
-        return this.appartenanceMapper.fromAppartenance(this.appartenanceRepo.save(appartenance));
+
+        Appartenance appartenanceSaved = this.appartenanceRepo.save(appartenance);
+        this.emailService.sendUserNotificationEmail(appartenanceSaved.getEtudiant());
+        return this.appartenanceMapper.fromAppartenance(appartenanceSaved);
     }
 
     @Override
@@ -57,7 +59,10 @@ public class AppartenanceServiceImpl implements IAppartenanceService {
            AnneeAcademique anneeAcademique = this.anneeAcademiqueRepo.findById(appartenanceRequest.getAnneeAcademiqueId())
                    .orElseThrow(()-> new RessourceNotFoundException("Not annee academique matches with id: "+appartenanceRequest.getAnneeAcademiqueId()));
            appartenanceUpdated.setAnneeAcademique(anneeAcademique);
-           return this.appartenanceMapper.fromAppartenance(this.appartenanceRepo.saveAndFlush(appartenanceUpdated));
+
+           Appartenance appartenanceEdited= this.appartenanceRepo.save(appartenanceUpdated);
+           this.emailService.sendUserNotificationEmail(appartenanceEdited.getEtudiant());
+           return this.appartenanceMapper.fromAppartenance(appartenanceEdited);
        }catch (NoSuchElementException e){
            throw new RessourceNotFoundException("Not found");
        }

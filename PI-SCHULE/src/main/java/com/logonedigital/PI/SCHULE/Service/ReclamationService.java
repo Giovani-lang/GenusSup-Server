@@ -23,6 +23,8 @@ public class ReclamationService implements IReclamationService {
     private final ReclamationRepository reclamationRepo;
     private final ReclamationMapper reclamationMapper;
     private final NoteRepository noteRepo;
+    private final EmailService emailService;
+
     @Override
     public ReclamationResponse addReclamation(ReclamationRequest reclamationRequest) {
         Reclamation reclamation = this.reclamationMapper.fromReclamationRequest(reclamationRequest);
@@ -31,7 +33,10 @@ public class ReclamationService implements IReclamationService {
                 .orElseThrow(()-> new RessourceNotFoundException("This ID "+reclamationRequest.getNoteId()+" doesn't exist"));
         reclamation.setNote(note);
         reclamation.setStatus("En attente");
-        return this.reclamationMapper.fromReclamation(this.reclamationRepo.save(reclamation));
+
+        Reclamation claimSaved = this.reclamationRepo.save(reclamation);
+        this.emailService.sendUserNotificationEmail(claimSaved.getNote().getMatiere().getEnseignant());
+        return this.reclamationMapper.fromReclamation(claimSaved);
     }
 
     @Override
@@ -42,7 +47,10 @@ public class ReclamationService implements IReclamationService {
         reclamationUpdated.setResolution(reclamation.getResolution());
         reclamationUpdated.setStatus(reclamation.getStatus());
         reclamationUpdated.setTreatedAt(new Date());
-        return this.reclamationMapper.fromReclamation(this.reclamationRepo.save(reclamationUpdated));
+
+        Reclamation claimTreated = this.reclamationRepo.save(reclamationUpdated);
+        this.emailService.sendUserNotificationEmail(claimTreated.getNote().getEtudiant());
+        return this.reclamationMapper.fromReclamation(claimTreated);
     }
 
     @Override

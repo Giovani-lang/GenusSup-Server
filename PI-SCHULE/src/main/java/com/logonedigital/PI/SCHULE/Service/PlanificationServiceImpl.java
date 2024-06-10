@@ -1,6 +1,7 @@
 package com.logonedigital.PI.SCHULE.Service;
 
 import com.logonedigital.PI.SCHULE.Entity.AnneeAcademique;
+import com.logonedigital.PI.SCHULE.Entity.Appartenance;
 import com.logonedigital.PI.SCHULE.Entity.Planification;
 import com.logonedigital.PI.SCHULE.Entity.Matiere;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
@@ -25,6 +26,8 @@ public class PlanificationServiceImpl implements IPlanificationService {
     private final PlanificationMapper planificationMapper;
     private final MatiereRepository matiereRepo;
     private final AnneeAcademiqueRepository anneeAcademiqueRepo;
+    private final EmailService emailService;
+
     @Override
     public PlanificationResponse addPlanning(PlanificationRequest planificationRequest) {
         Planification planification = this.planificationMapper.fromPlanificationRequest(planificationRequest);
@@ -42,7 +45,10 @@ public class PlanificationServiceImpl implements IPlanificationService {
         //Enregistrement de la date de fin dans sa variable en reconversion vers le type string;
         planification.setFin(resultat.toString());
 
-        return this.planificationMapper.fromPlanification(this.planificationRepo.save(planification));
+
+        Planification planificationSaved = this.planificationRepo.save(planification);
+        this.emailService.sendUserNotificationEmail(planificationSaved.getMatiere().getEnseignant());
+        return this.planificationMapper.fromPlanification(planificationSaved);
     }
 
     @Override
@@ -97,8 +103,9 @@ public class PlanificationServiceImpl implements IPlanificationService {
         planificationUpdated.setAnneeAcademique(anneeAcademique);
         planificationUpdated.setSalle(planification.getSalle());
 
-        return this.planificationMapper.fromPlanification(this.planificationRepo.saveAndFlush(planificationUpdated));
-    }
+        Planification planificationEdited = this.planificationRepo.save(planificationUpdated);
+        this.emailService.sendUserNotificationEmail(planificationEdited.getMatiere().getEnseignant());
+        return this.planificationMapper.fromPlanification(planificationEdited);    }
 
     @Override
     public void deletePlanning(Long id) {

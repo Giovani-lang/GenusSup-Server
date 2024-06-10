@@ -33,6 +33,7 @@ public class NoteServiceImpl implements INoteService {
     private final MatiereRepository matiereRepo;
     private final EtudiantRepository etudiantRepo;
     private final AnneeAcademiqueRepository anneeAcademiqueRepo;
+    private final EmailService emailService;
 
     @Override
     public NoteResponse addNote(NoteRequest noteRequest) throws RessourceExistException {
@@ -51,7 +52,9 @@ public class NoteServiceImpl implements INoteService {
                 .orElseThrow(()->new RessourceNotFoundException("Not found"));
         note.setAnneeAcademique(anneeAcademique);
 
-        return this.noteMapper.fromNote(this.noteRepo.save(note));
+        Note noteSaved = this.noteRepo.save(note);
+        this.emailService.sendUserNotificationEmail(note.getEtudiant());
+        return this.noteMapper.fromNote(noteSaved);
     }
 
     @Override
@@ -105,7 +108,10 @@ public class NoteServiceImpl implements INoteService {
            newNote.setPondSN(noteRequest.getPondSN());
            newNote.setPondRT(noteRequest.getPondRT());
            newNote.setPeriode(noteRequest.getPeriode());
-           return this.noteMapper.fromNote(this.noteRepo.save(newNote));
+
+           Note noteUpdated = this.noteRepo.save(newNote);
+           this.emailService.sendUserNotificationEmail(newNote.getEtudiant());
+           return this.noteMapper.fromNote(noteUpdated);
        }catch (NoSuchElementException ex){
            throw new RessourceNotFoundException("Impossible to update");
        }

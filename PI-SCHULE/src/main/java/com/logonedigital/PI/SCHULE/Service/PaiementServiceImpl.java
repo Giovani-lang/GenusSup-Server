@@ -3,6 +3,7 @@ package com.logonedigital.PI.SCHULE.Service;
 import com.logonedigital.PI.SCHULE.Entity.AnneeAcademique;
 import com.logonedigital.PI.SCHULE.Entity.Etudiant;
 import com.logonedigital.PI.SCHULE.Entity.Paiement;
+import com.logonedigital.PI.SCHULE.Entity.Reclamation;
 import com.logonedigital.PI.SCHULE.Exception.RessourceNotFoundException;
 import com.logonedigital.PI.SCHULE.Mapper.PaiementMapper;
 import com.logonedigital.PI.SCHULE.Repository.AnneeAcademiqueRepository;
@@ -25,6 +26,8 @@ public class PaiementServiceImpl implements IPaiementService {
     private final PaiementMapper paiementMapper;
     private final EtudiantRepository etudiantRepo;
     private final AnneeAcademiqueRepository anneeAcademiqueRepo;
+    private final EmailService emailService;
+
     @Override
     public PaiementResponse addPaiement(PaiementRequest paiementRequest) {
         Paiement paiement = this.paiementMapper.fromPaiementRequest(paiementRequest);
@@ -35,7 +38,10 @@ public class PaiementServiceImpl implements IPaiementService {
                 .orElseThrow(()-> new RessourceNotFoundException("This annee academique doesn't exist, try again !"));
         paiement.setAnneeAcademique(annee);
         paiement.setDate(new Date());
-        return this.paiementMapper.fromPaiement(this.paiementRepo.save(paiement));
+
+        Paiement payment = this.paiementRepo.save(paiement);
+        this.emailService.sendUserNotificationEmail(payment.getEtudiant());
+        return this.paiementMapper.fromPaiement(payment);
     }
 
     @Override
