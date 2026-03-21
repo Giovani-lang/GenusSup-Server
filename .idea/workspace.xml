@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="94057e85-1b4e-4f55-a432-662deeb932e3" name="Changes" comment="Add Dockerfile for Railway">
+      <change beforePath="$PROJECT_DIR$/GENUS-SUP/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/GENUS-SUP/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Giovani-lang"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="fbd5258b-3ef7-4ef1-af24-3b71a6b97498" />
+        <option name="url" value="https://github.com/Giovani-lang/GenusSup-Server.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "dev"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="GenusSupApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.genus.GENUS_SUP.GenusSupApplication" />
+      <module name="GENUS-SUP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.genus.GENUS_SUP.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="GENUS-SUP" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="GENUS-SUP" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GenusSupApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Adding Config in pom.xml for deploy" />
+    <MESSAGE value="Add Dockerfile for Railway" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Dockerfile for Railway" />
+  </component>
+</project>
