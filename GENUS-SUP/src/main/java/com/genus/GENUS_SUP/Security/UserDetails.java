@@ -23,7 +23,7 @@ public class UserDetails extends User implements org.springframework.security.co
 
 
         public UserDetails(User user) {
-        this.username = user.getEmail();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities = Arrays.stream(user.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
